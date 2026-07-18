@@ -10,39 +10,40 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 :root {
-  --primary: #1e3a8a;
-  --primary-dark: #0f2460;
-  --primary-mid: #1a3070;
-  --primary-light: #2563eb;
-  --accent: #d97706;
-  --accent-light: #f59e0b;
-  --accent-gold: #fbbf24;
-  --accent-gradient: linear-gradient(135deg, #f59e0b, #d97706);
-  --bg-page: #fafbff;
-  --bg-light: #f1f5f9;
-  --bg-muted: #e8edf5;
+  --primary: #003e8f;
+  --primary-dark: #002d6b;
+  --primary-mid: #003070;
+  --primary-light: #1565c0;
+  --accent: #e6ad00;
+  --accent-light: #f5c518;
+  --accent-gold: #f5c518;
+  --accent-gradient: linear-gradient(135deg, #f5c518, #e6ad00);
+  --bg-page: #f8faff;
+  --bg-light: #f0f4fb;
+  --bg-muted: #e4eaf5;
   --card: #ffffff;
   --text-light: #ffffff;
-  --text-dark: #0f172a;
-  --text-mid: #1e293b;
-  --text-muted-dark: #475569;
-  --text-muted-light: #94a3b8;
+  --text-dark: #0a1e3e;
+  --text-mid: #0f2d5a;
+  --text-muted-dark: #4a5568;
+  --text-muted-light: #8fa3c0;
   --muted: rgba(255,255,255,0.72);
   --muted-soft: rgba(255,255,255,0.45);
-  --border: rgba(255,255,255,0.14);
+  --border: rgba(0,62,143,0.15);
   --border-mid: rgba(255,255,255,0.22);
-  --border-light: #e2e8f0;
-  --border-card: #dde3ef;
+  --border-light: #dce6f5;
+  --border-card: #d5e0f0;
+  --border-gold: rgba(230,173,0,0.4);
   --radius: 0.75rem;
-  --shadow-sm: 0 1px 4px rgba(15,23,42,0.06);
-  --shadow: 0 4px 20px rgba(15,23,42,0.08);
-  --shadow-md: 0 8px 32px rgba(15,23,42,0.12);
+  --shadow-sm: 0 1px 4px rgba(0,62,143,0.06);
+  --shadow: 0 4px 20px rgba(0,62,143,0.10);
+  --shadow-md: 0 8px 32px rgba(0,62,143,0.14);
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body { font-family: 'Inter', sans-serif; background: var(--bg-page); color: var(--text-dark); line-height: 1.6; -webkit-font-smoothing: antialiased; }
 h1, h2, h3, h4, h5, h6 { font-family: 'Playfair Display', serif; }
-.text-gradient-gold { background: linear-gradient(135deg, #fde68a, #fbbf24, #d97706); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.text-gradient-gold { background: linear-gradient(135deg, #fde68a, var(--accent-gold), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
 
 /* Header */
@@ -100,7 +101,7 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Playfair Display', serif; }
 .feature-card .icon-circle { width: 48px; height: 48px; border-radius: 0.6rem; background: var(--primary); display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; font-size: 1.2rem; }
 .feature-card h3 { font-size: 1.05rem; color: var(--accent); margin-bottom: 0.75rem; font-weight: 700; font-family: 'Inter', sans-serif; }
 .feature-card p { font-size: 0.85rem; color: var(--text-muted-dark); line-height: 1.7; }
-.feature-card .highlight-box { background: #fffbeb; border: 1px solid #fde68a; border-radius: 0.5rem; padding: 0.75rem; margin-top: 1rem; text-align: center; }
+.feature-card .highlight-box { background: #fffbeb; border: 1px solid rgba(230,173,0,0.4); border-radius: 0.5rem; padding: 0.75rem; margin-top: 1rem; text-align: center; }
 .feature-card .highlight-box .price { font-size: 1.5rem; font-weight: 900; color: var(--accent); font-family: 'Inter', sans-serif; }
 .feature-card .highlight-box .note { font-size: 0.75rem; color: var(--accent); }
 .feature-card .red-text { color: #dc2626; font-weight: 700; }
@@ -135,7 +136,7 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Playfair Display', serif; }
 .day-content .info-list li::before { content: "•"; position: absolute; left: 0; color: var(--accent); font-weight: bold; }
 .day-content .meals-badge { display: inline-flex; align-items: center; gap: 0.3rem; background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; font-size: 0.8rem; font-weight: 600; padding: 0.3rem 0.8rem; border-radius: 2rem; }
 .day-content .travel-time { font-size: 0.8rem; color: var(--text-muted-dark); font-style: italic; margin-top: 0.5rem; }
-.day-content .optional-box { background: #fef9ee; border: 1px solid #fde68a; border-radius: 0.5rem; padding: 0.75rem 1rem; margin-top: 1rem; }
+.day-content .optional-box { background: #fffce6; border: 1px solid rgba(230,173,0,0.4); border-radius: 0.5rem; padding: 0.75rem 1rem; margin-top: 1rem; }
 .day-content .optional-box .opt-title { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; color: var(--accent); margin-bottom: 0.3rem; font-family: 'Inter', sans-serif; }
 .day-content .optional-box p { font-size: 0.8rem; color: var(--text-muted-dark); }
 .day-content .note-text { font-size: 0.75rem; color: #94a3b8; font-style: italic; margin-top: 1rem; }
@@ -149,31 +150,31 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Playfair Display', serif; }
 .pricing .section-sub { color: var(--text-muted-dark); font-size: 0.95rem; max-width: 600px; margin: 0 auto 3rem; }
 .pricing-card { background: white; border-radius: 1.2rem; overflow: hidden; box-shadow: var(--shadow-md); margin-top: 2rem; border: 1px solid var(--border-card); }
 .pricing-header { display: grid; grid-template-columns: 1.2fr 1fr 1fr 1fr; gap: 0; background: white; }
-.pricing-header-intro { padding: 2rem 1.5rem; text-align: left; border-right: 1px solid #e8edf5; display: flex; flex-direction: column; justify-content: center; }
+.pricing-header-intro { padding: 2rem 1.5rem; text-align: left; border-right: 1px solid var(--border-card); display: flex; flex-direction: column; justify-content: center; }
 .pricing-header-intro h3 { font-size: 1.1rem; color: var(--primary); margin-bottom: 0.5rem; font-weight: 700; font-family: 'Playfair Display', serif; }
-.pricing-header-intro p { font-size: 0.85rem; color: #6b7a94; line-height: 1.6; }
-.pricing-header-col { padding: 2rem 1rem; border-left: 1px solid #e8edf5; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.5rem; }
+.pricing-header-intro p { font-size: 0.85rem; color: var(--text-muted-dark); line-height: 1.6; }
+.pricing-header-col { padding: 2rem 1rem; border-left: 1px solid var(--border-card); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.5rem; }
 .pricing-header-col .col-badge { font-size: 0.6rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; padding: 0.25rem 0.75rem; border-radius: 1rem; border: 1.5px solid var(--primary); color: var(--primary); }
-.pricing-header-col.best-seller-col .col-badge { background: linear-gradient(135deg, #f59e0b, #d97706); color: white; border: none; }
-.pricing-header-col.best-seller-col .col-sub-badge { font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; padding: 0.2rem 0.6rem; border-radius: 0.5rem; background: #fef3c7; color: #92400e; }
+.pricing-header-col.best-seller-col .col-badge { background: var(--accent-gradient); color: white; border: none; }
+.pricing-header-col.best-seller-col .col-sub-badge { font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; padding: 0.2rem 0.6rem; border-radius: 0.5rem; background: #fff8cc; color: #7a5800; }
 .pricing-header-col .col-amount { font-size: 1.8rem; font-weight: 900; color: var(--primary); font-family: 'Inter', sans-serif; }
-.pricing-header-col.best-seller-col .col-amount { color: #d97706; }
-.pricing-header-col .col-sub { font-size: 0.75rem; color: #6b7a94; font-style: italic; }
+.pricing-header-col.best-seller-col .col-amount { color: var(--accent); }
+.pricing-header-col .col-sub { font-size: 0.75rem; color: var(--text-muted-dark); font-style: italic; }
 .pricing-header-col .view-schedule-btn { display: inline-block; padding: 0.5rem 1.2rem; border-radius: 0.5rem; font-size: 0.75rem; font-weight: 700; cursor: pointer; text-decoration: none; transition: all 0.2s; margin-top: 0.3rem; border: none; }
 .pricing-header-col .view-schedule-btn.dark { background: var(--primary); color: white; }
-.pricing-header-col .view-schedule-btn.gold { background: linear-gradient(135deg, #f59e0b, #d97706); color: white; }
+.pricing-header-col .view-schedule-btn.gold { background: var(--accent-gradient); color: white; }
 .pricing-header-col .view-schedule-btn:hover { transform: scale(0.97); opacity: 0.9; }
 .pricing-rows { }
-.pricing-row-item { display: grid; grid-template-columns: 1.2fr 1fr 1fr 1fr; border-bottom: 1px solid #f1f5f9; }
+.pricing-row-item { display: grid; grid-template-columns: 1.2fr 1fr 1fr 1fr; border-bottom: 1px solid var(--border-light); }
 .pricing-row-item:last-child { border-bottom: none; }
 .pricing-row-item .row-label { padding: 1rem 1.5rem; font-weight: 700; color: var(--primary); font-size: 0.9rem; display: flex; align-items: center; }
-.pricing-row-item .row-value { padding: 1rem; text-align: center; font-size: 0.85rem; color: #4a5568; display: flex; align-items: center; justify-content: center; }
-.pricing-row-item .row-value .check-badge { color: #2563eb; font-weight: 700; font-size: 0.85rem; }
-.pricing-row-item .row-value .discount-badge { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 0.4rem; font-size: 0.75rem; font-weight: 700; border: 1.5px solid #d97706; color: #d97706; }
+.pricing-row-item .row-value { padding: 1rem; text-align: center; font-size: 0.85rem; color: var(--text-muted-dark); display: flex; align-items: center; justify-content: center; }
+.pricing-row-item .row-value .check-badge { color: var(--primary-light); font-weight: 700; font-size: 0.85rem; }
+.pricing-row-item .row-value .discount-badge { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 0.4rem; font-size: 0.75rem; font-weight: 700; border: 1.5px solid var(--accent); color: var(--accent); }
 .pricing-row-item .row-value .free-badge { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 0.4rem; font-size: 0.75rem; font-weight: 700; border: 1.5px solid #dc2626; color: #dc2626; }
-.pricing-view-link { text-align: center; padding: 2rem; border-top: 1px solid #e8edf5; }
-.pricing-view-link a { color: var(--primary); font-weight: 600; font-size: 0.9rem; text-decoration: none; border-bottom: 1.5px solid var(--primary); padding-bottom: 2px; }
-.pricing-view-link a:hover { color: var(--primary-light); border-color: var(--primary-light); }
+.pricing-view-link { text-align: center; padding: 2rem; border-top: 1px solid var(--border-card); }
+.pricing-view-link a { color: var(--primary); font-weight: 600; font-size: 0.9rem; text-decoration: none; border-bottom: 1.5px solid var(--accent); padding-bottom: 2px; }
+.pricing-view-link a:hover { color: var(--accent); border-color: var(--accent); }
 @media(max-width:768px) { .pricing-header { grid-template-columns: 1fr; } .pricing-header-intro { border-right: none; border-bottom: 1px solid #e8edf5; } .pricing-header-col { border-left: none; border-bottom: 1px solid #e8edf5; } .pricing-row-item { grid-template-columns: 1fr; } .pricing-row-item .row-label { border-bottom: none; padding-bottom: 0.25rem; justify-content: center; } .pricing-row-item .row-value { border-left: none; padding-top: 0.25rem; } }
 
 /* Reservation Form */
@@ -398,7 +399,7 @@ footer { background: var(--primary-dark); border-top: 3px solid var(--accent); p
       </div>
       
       <!-- Down Payment Column (Best Seller) -->
-      <div class="pricing-header-col best-seller-col" style="position:relative;border-left:2px solid rgba(245,158,11,0.5);border-right:2px solid rgba(245,158,11,0.5);background:rgba(245,158,11,0.03);padding-top:2.5rem;">
+      <div class="pricing-header-col best-seller-col" style="position:relative;border-left:2px solid rgba(230,173,0,0.5);border-right:2px solid rgba(230,173,0,0.5);background:rgba(230,173,0,0.03);padding-top:2.5rem;">
         <span class="col-badge" style="position:absolute;top:0.5rem;left:50%;transform:translateX(-50%);font-size:0.6rem;padding:0.3rem 0.8rem;white-space:nowrap;z-index:2;">⭐ BEST SELLER</span>
         <span class="col-sub-badge">DOWN PAYMENT</span>
         <div class="col-amount">₱50,000</div>
@@ -420,8 +421,8 @@ footer { background: var(--primary-dark); border-top: 3px solid var(--accent); p
         <div class="row-value" style="border-left:1px solid #e8edf5;">
           <strong style="color:var(--primary);">₱165,000</strong>
         </div>
-        <div class="row-value" style="border-left:2px solid rgba(245,158,11,0.3);border-right:2px solid rgba(245,158,11,0.3);background:rgba(245,158,11,0.02);">
-          <strong style="color:#d97706;">₱165,000</strong>
+        <div class="row-value" style="border-left:2px solid rgba(230,173,0,0.3);border-right:2px solid rgba(230,173,0,0.3);background:rgba(230,173,0,0.02);">
+          <strong style="color:var(--accent);">₱165,000</strong>
         </div>
         <div class="row-value" style="border-left:1px solid #e8edf5;">
           <strong style="color:var(--primary);">₱165,000</strong>
@@ -433,8 +434,8 @@ footer { background: var(--primary-dark); border-top: 3px solid var(--accent); p
         <div class="row-value" style="border-left:1px solid #e8edf5;">
           <span class="check-badge">✓ 100% Refund</span>
         </div>
-        <div class="row-value" style="border-left:2px solid rgba(245,158,11,0.3);border-right:2px solid rgba(245,158,11,0.3);background:rgba(245,158,11,0.02);">
-          <span class="check-badge" style="color:#d97706;">✓ 100% Refund</span>
+        <div class="row-value" style="border-left:2px solid rgba(230,173,0,0.3);border-right:2px solid rgba(230,173,0,0.3);background:rgba(230,173,0,0.02);">
+          <span class="check-badge" style="color:var(--accent);">✓ 100% Refund</span>
         </div>
         <div class="row-value" style="border-left:1px solid #e8edf5;">
           <span class="check-badge">✓ 100% Refund</span>
@@ -443,8 +444,8 @@ footer { background: var(--primary-dark); border-top: 3px solid var(--accent); p
       
       <div class="pricing-row-item">
         <div class="row-label">Visa Assistance & Appointment Fee</div>
-        <div class="row-value" style="border-left:1px solid #e8edf5;color:#6b7a94;">Standard Rate</div>
-        <div class="row-value" style="border-left:2px solid rgba(245,158,11,0.3);border-right:2px solid rgba(245,158,11,0.3);background:rgba(245,158,11,0.02);">
+        <div class="row-value" style="border-left:1px solid #e8edf5;color:var(--text-muted-dark);">Standard Rate</div>
+        <div class="row-value" style="border-left:2px solid rgba(230,173,0,0.3);border-right:2px solid rgba(230,173,0,0.3);background:rgba(230,173,0,0.02);">
           <span class="discount-badge">50% OFF</span>
         </div>
         <div class="row-value" style="border-left:1px solid #e8edf5;">
@@ -454,8 +455,8 @@ footer { background: var(--primary-dark); border-top: 3px solid var(--accent); p
       
       <div class="pricing-row-item">
         <div class="row-label">Premium Travel Insurance</div>
-        <div class="row-value" style="border-left:1px solid #e8edf5;color:#6b7a94;">Standard Rate</div>
-        <div class="row-value" style="border-left:2px solid rgba(245,158,11,0.3);border-right:2px solid rgba(245,158,11,0.3);background:rgba(245,158,11,0.02);color:#6b7a94;">Standard Rate</div>
+        <div class="row-value" style="border-left:1px solid #e8edf5;color:var(--text-muted-dark);">Standard Rate</div>
+        <div class="row-value" style="border-left:2px solid rgba(230,173,0,0.3);border-right:2px solid rgba(230,173,0,0.3);background:rgba(230,173,0,0.02);color:var(--text-muted-dark);">Standard Rate</div>
         <div class="row-value" style="border-left:1px solid #e8edf5;">
           <span class="discount-badge" style="border-color:var(--primary);color:var(--primary);">50% OFF</span>
         </div>
@@ -463,8 +464,8 @@ footer { background: var(--primary-dark); border-top: 3px solid var(--accent); p
       
       <div class="pricing-row-item">
         <div class="row-label">Taxes, Tipping & Permits</div>
-        <div class="row-value" style="border-left:1px solid #e8edf5;color:#6b7a94;">Standard Rate</div>
-        <div class="row-value" style="border-left:2px solid rgba(245,158,11,0.3);border-right:2px solid rgba(245,158,11,0.3);background:rgba(245,158,11,0.02);color:#6b7a94;">Standard Rate</div>
+        <div class="row-value" style="border-left:1px solid #e8edf5;color:var(--text-muted-dark);">Standard Rate</div>
+        <div class="row-value" style="border-left:2px solid rgba(230,173,0,0.3);border-right:2px solid rgba(230,173,0,0.3);background:rgba(230,173,0,0.02);color:var(--text-muted-dark);">Standard Rate</div>
         <div class="row-value" style="border-left:1px solid #e8edf5;">
           <span class="discount-badge" style="border-color:var(--primary);color:var(--primary);">50% OFF</span>
         </div>
@@ -472,8 +473,8 @@ footer { background: var(--primary-dark); border-top: 3px solid var(--accent); p
       
       <div class="pricing-row-item">
         <div class="row-label">Philippine Travel Tax</div>
-        <div class="row-value" style="border-left:1px solid #e8edf5;color:#6b7a94;">Standard Rate</div>
-        <div class="row-value" style="border-left:2px solid rgba(245,158,11,0.3);border-right:2px solid rgba(245,158,11,0.3);background:rgba(245,158,11,0.02);color:#6b7a94;">Standard Rate</div>
+        <div class="row-value" style="border-left:1px solid #e8edf5;color:var(--text-muted-dark);">Standard Rate</div>
+        <div class="row-value" style="border-left:2px solid rgba(230,173,0,0.3);border-right:2px solid rgba(230,173,0,0.3);background:rgba(230,173,0,0.02);color:var(--text-muted-dark);">Standard Rate</div>
         <div class="row-value" style="border-left:1px solid #e8edf5;">
           <span class="free-badge">100% FREE</span>
         </div>
@@ -492,7 +493,7 @@ footer { background: var(--primary-dark); border-top: 3px solid var(--accent); p
 <section style="background: var(--primary); padding: 5rem 1.5rem; color: white;" id="inclusions">
   <div class="container">
     <!-- Header -->
-    <div style="background: linear-gradient(135deg, #1a3a8b, #0a1e5e); border-radius: 1.5rem; padding: 3rem 2rem; text-align: center; margin-bottom: 3rem; border: 1px solid var(--border);">
+    <div style="background: linear-gradient(135deg, #003e8f, #002d6b); border-radius: 1.5rem; padding: 3rem 2rem; text-align: center; margin-bottom: 3rem; border: 1px solid var(--border);">
       <span class="section-badge" style="background: rgba(255,255,255,0.1); color: white; margin-bottom: 1rem;">Package Details</span>
       <h2 style="font-size: clamp(1.8rem, 4vw, 2.5rem); font-style: italic; margin-bottom: 0.75rem; color: white;">Inclusions, Exclusions & Optionals</h2>
       <p style="color: var(--muted); font-size: 0.95rem; max-width: 600px; margin: 0 auto;">Everything you need to know about your Route G Easy package. Tap each category to explore.</p>
@@ -501,7 +502,7 @@ footer { background: var(--primary-dark); border-top: 3px solid var(--accent); p
     <!-- Three Stacked Buttons -->
     <div style="display: flex; flex-direction: column; gap: 1rem; max-width: 600px; margin: 0 auto 3rem;">
       <!-- Inclusions Button -->
-      <div style="background: linear-gradient(135deg, #1a3a8b, #0a1e5e); border: 1px solid var(--border); border-radius: 1rem; padding: 1.5rem; text-decoration: none; display: flex; align-items: center; justify-content: space-between; transition: all 0.2s; cursor: pointer;">
+      <div style="background: linear-gradient(135deg, #003e8f, #002d6b); border: 1px solid var(--border); border-radius: 1rem; padding: 1.5rem; text-decoration: none; display: flex; align-items: center; justify-content: space-between; transition: all 0.2s; cursor: pointer;">
         <div style="display: flex; align-items: center; gap: 1rem;">
           <span style="font-size: 1.5rem; color: #4ade80;">✓</span>
           <div style="text-align: left;">
@@ -513,7 +514,7 @@ footer { background: var(--primary-dark); border-top: 3px solid var(--accent); p
       </div>
 
       <!-- Exclusions Button -->
-      <div style="background: linear-gradient(135deg, #1a3a8b, #0a1e5e); border: 1px solid var(--border); border-radius: 1rem; padding: 1.5rem; text-decoration: none; display: flex; align-items: center; justify-content: space-between; transition: all 0.2s; cursor: pointer;">
+      <div style="background: linear-gradient(135deg, #003e8f, #002d6b); border: 1px solid var(--border); border-radius: 1rem; padding: 1.5rem; text-decoration: none; display: flex; align-items: center; justify-content: space-between; transition: all 0.2s; cursor: pointer;">
         <div style="display: flex; align-items: center; gap: 1rem;">
           <span style="font-size: 1.5rem; color: #ef4444;">✕</span>
           <div style="text-align: left;">
@@ -525,7 +526,7 @@ footer { background: var(--primary-dark); border-top: 3px solid var(--accent); p
       </div>
 
       <!-- Optional Services Button -->
-      <div style="background: linear-gradient(135deg, #1a3a8b, #0a1e5e); border: 1px solid var(--border); border-radius: 1rem; padding: 1.5rem; text-decoration: none; display: flex; align-items: center; justify-content: space-between; transition: all 0.2s; cursor: pointer;">
+      <div style="background: linear-gradient(135deg, #003e8f, #002d6b); border: 1px solid var(--border); border-radius: 1rem; padding: 1.5rem; text-decoration: none; display: flex; align-items: center; justify-content: space-between; transition: all 0.2s; cursor: pointer;">
         <div style="display: flex; align-items: center; gap: 1rem;">
           <span style="font-size: 1.5rem; color: var(--accent);">◎</span>
           <div style="text-align: left;">
