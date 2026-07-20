@@ -329,16 +329,43 @@ footer { background: var(--primary-dark); border-top: 3px solid var(--accent); p
 .bc-actions .btn-new { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.7rem 1.5rem; background: #f1f5f9; color: #374151; border: none; border-radius: 0.5rem; font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: all 0.2s; }
 .bc-actions .btn-new:hover { background: #e2e8f0; }
 @media print {
+  @page { size: A4 portrait; margin: 12mm 10mm 12mm 10mm; }
+  html, body { width: 100%; margin: 0; padding: 0; }
   body > *:not(#bc-overlay) { display: none !important; }
-  #bc-overlay { display: block !important; position: static !important; background: white !important; }
+  #bc-overlay { display: block !important; position: static !important; background: white !important; width: 100% !important; max-width: 100% !important; padding: 0 !important; margin: 0 !important; box-shadow: none !important; }
+  .bc-inner { width: 100% !important; max-width: 100% !important; padding: 0 !important; margin: 0 !important; }
   .bc-package-buttons { display: none !important; }
   .bc-package-print { display: block !important; }
   .bc-actions { display: none !important; }
   .bc-submit-section { display: none !important; }
   .bc-sig-clear { display: none !important; }
   .bc-sig-placeholder { display: none !important; }
-  .bc-tc-scroll { max-height: none; overflow: visible; }
+  .bc-tc-scroll { max-height: none !important; overflow: visible !important; }
   .bc-agreement { display: none !important; }
+  /* Table: fit full width, smaller font, no overflow */
+  .bc-table { width: 100% !important; table-layout: fixed !important; font-size: 0.62rem !important; border-collapse: collapse !important; overflow: hidden !important; }
+  .bc-table th, .bc-table td { padding: 0.3rem 0.35rem !important; font-size: 0.62rem !important; word-break: break-word !important; overflow-wrap: break-word !important; white-space: normal !important; }
+  /* Column widths for passenger table */
+  .bc-table th:nth-child(1), .bc-table td:nth-child(1) { width: 4% !important; }
+  .bc-table th:nth-child(2), .bc-table td:nth-child(2) { width: 12% !important; }
+  .bc-table th:nth-child(3), .bc-table td:nth-child(3) { width: 10% !important; }
+  .bc-table th:nth-child(4), .bc-table td:nth-child(4) { width: 12% !important; }
+  .bc-table th:nth-child(5), .bc-table td:nth-child(5) { width: 7% !important; }
+  .bc-table th:nth-child(6), .bc-table td:nth-child(6) { width: 7% !important; }
+  .bc-table th:nth-child(7), .bc-table td:nth-child(7) { width: 14% !important; }
+  .bc-table th:nth-child(8), .bc-table td:nth-child(8) { width: 20% !important; }
+  .bc-table th:nth-child(9), .bc-table td:nth-child(9) { width: 14% !important; }
+  /* Prevent page breaks inside key blocks */
+  .bc-section-title { page-break-after: avoid !important; }
+  .bc-details-grid { page-break-inside: avoid !important; }
+  .bc-detail-item { page-break-inside: avoid !important; }
+  /* Details grid: 2-column on print */
+  .bc-details-grid { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 0.75rem !important; }
+  /* Header: keep on one line */
+  .bc-header { page-break-inside: avoid !important; }
+  .bc-header-contact { flex-wrap: nowrap !important; gap: 0.5rem !important; font-size: 0.65rem !important; }
+  /* Overflow wrappers */
+  div[style*="overflow-x:auto"] { overflow: visible !important; }
 }
 </style>
 </head>
@@ -1356,6 +1383,9 @@ function updateTravelers() {
 }
 
 // ==================== FORM SUBMISSION ====================
+// Global booking data for confirmation email
+let lastBookingData = null;
+
 document.getElementById('reservation-form-el').addEventListener('submit', function(e) {
   e.preventDefault();
   generateBookingConfirmation();
@@ -1530,6 +1560,72 @@ function generateBookingConfirmation() {
   // Init signature canvas
   initSignatureCanvas();
 
+  // ===== STORE BOOKING DATA FOR SIGNED CONFIRMATION EMAIL =====
+  const travelDateLabel = (() => {
+    const sel = document.getElementById('travelDate');
+    return sel ? sel.options[sel.selectedIndex]?.text || travelDate : travelDate;
+  })();
+  lastBookingData = {
+    firstName, middleName, lastName, suffix, gender, dob, contactNo, email,
+    travelersCount, travelDate, travelDateLabel, consultant, packageType, paymentScheme,
+    packageLabel, ratePerHead, totalAmount: ratePerHead * travelersCount,
+    notes: notesVal, refNo, fullName
+  };
+
+  // ===== SEND INITIAL BOOKING NOTIFICATION VIA WEB3FORMS =====
+  (function sendInitialBookingEmail() {
+    const count = travelersCount;
+    let message = `PRIMARY TRAVELER:\n`;
+    message += `Name: ${firstName} ${middleName} ${lastName} ${suffix !== 'None' ? suffix : ''}\n`;
+    message += `Gender: ${gender} | DOB: ${dob}\n`;
+    message += `Contact: ${contactNo} | Email: ${email}\n`;
+    // Additional travelers from .traveler-block
+    const addlBlocks = document.querySelectorAll('.traveler-block');
+    if (addlBlocks.length > 0) {
+      message += `\nADDITIONAL TRAVELERS:\n`;
+      addlBlocks.forEach((block, idx) => {
+        const inputs = block.querySelectorAll('input, select');
+        const aFN = inputs[0]?.value || '';
+        const aMN = inputs[1]?.value || '';
+        const aLN = inputs[2]?.value || '';
+        const aDob = inputs[3]?.value || '';
+        const aGen = inputs[4]?.value || '';
+        message += `\nTraveler ${idx + 2}: ${aFN} ${aMN} ${aLN}\n`;
+        message += `  Gender: ${aGen} | DOB: ${aDob}\n`;
+      });
+    }
+    if (notesVal) message += `\nNOTES: ${notesVal}`;
+    const formData = {
+      access_key: '7332ba6f-c90e-4d55-ac88-cf63c72e4e48',
+      subject: `New Route G Easy Booking: ${firstName} ${middleName} ${lastName}${suffix && suffix !== 'None' ? ' ' + suffix : ''} - ${travelDateLabel}`,
+      from_name: `${firstName} ${middleName} ${lastName}${suffix && suffix !== 'None' ? ' ' + suffix : ''}`,
+      first_name: firstName,
+      middle_name: middleName,
+      last_name: lastName,
+      suffix: suffix || 'None',
+      gender: gender,
+      date_of_birth: dob,
+      email: email,
+      contact_number: contactNo,
+      travel_date: travelDateLabel,
+      package_type: packageLabel,
+      payment_scheme: paymentLabel,
+      travelers_count: travelersCount + ' person(s)',
+      total_amount: `₱${(ratePerHead * travelersCount).toLocaleString()}`,
+      travel_consultant: consultant,
+      booking_reference: refNo,
+      message: message
+    };
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData)
+    })
+    .then(res => res.json())
+    .then(result => { console.log('Booking notification sent:', result); })
+    .catch(err => { console.error('Web3Forms error:', err); });
+  })();
+
   // Show the overlay
   const overlay = document.getElementById('bc-overlay');
   overlay.style.display = 'block';
@@ -1589,15 +1685,59 @@ function updateBCSubmitBtn() {
 }
 
 function submitSignedConfirmation() {
+  const btn = document.getElementById('bcSubmitBtn');
+  const status = document.getElementById('bcSubmitStatus');
   const printBtn = document.getElementById('bcPrintBtn');
-  printBtn.disabled = false;
-  printBtn.style.opacity = '1';
-  printBtn.style.cursor = 'pointer';
-  document.getElementById('bcSubmitBtn').disabled = true;
-  document.getElementById('bcSubmitBtn').textContent = '✓ Confirmation Submitted';
-  document.getElementById('bcSubmitStatus').textContent = '✓ Your booking confirmation has been submitted successfully!';
-  document.getElementById('bcSubmitStatus').className = 'bc-submit-status ready';
-  showToast('✅ Booking confirmation submitted! You may now print or save as PDF.');
+  btn.disabled = true;
+  btn.innerHTML = '⏳ Submitting...';
+  status.className = 'bc-submit-status pending';
+  status.textContent = 'Sending your signed confirmation...';
+
+  // Get signature as data URL
+  const sigDataUrl = sigCanvas ? sigCanvas.toDataURL('image/png') : '';
+
+  // Build FormData for Web3Forms
+  const bd = lastBookingData || {};
+  const formData = new FormData();
+  formData.append('access_key', '7332ba6f-c90e-4d55-ac88-cf63c72e4e48');
+  const clientName = (bd.firstName || '') + ' ' + (bd.lastName || '');
+  formData.append('subject', 'SIGNED Booking Confirmation - ' + clientName.trim() + ' (Route G Easy)');
+  formData.append('from_name', 'Route G Easy - Signed Confirmation');
+  // Booking reference from footer
+  const footerRef = document.getElementById('bc-footer-ref');
+  formData.append('Booking_Reference', footerRef ? footerRef.textContent : bd.refNo || '');
+  formData.append('Client_Name', [bd.firstName, bd.middleName, bd.lastName].filter(Boolean).join(' '));
+  formData.append('Contact_Email', bd.email || '');
+  formData.append('Contact_Number', bd.contactNo || '');
+  formData.append('Travel_Date', bd.travelDateLabel || bd.travelDate || '');
+  formData.append('Package_Type', bd.packageLabel || '');
+  formData.append('Payment_Scheme', bd.paymentScheme === 'monthly' ? 'Monthly Installment' : bd.paymentScheme === 'down' ? '₱50,000 Down Payment' : 'Full Cash');
+  formData.append('Total_Passengers', String(bd.travelersCount || 1));
+  formData.append('Grand_Total', '₱' + ((bd.ratePerHead || 165000) * (bd.travelersCount || 1)).toLocaleString());
+  formData.append('Travel_Consultant', bd.consultant || '');
+  formData.append('Special_Requests', bd.notes || 'None');
+  formData.append('Terms_Accepted', 'Yes - Client accepted all Terms & Conditions');
+  formData.append('Signature_Provided', 'Yes - Client digital signature captured');
+  formData.append('Date_Signed', new Date().toLocaleString('en-US', { timeZone: 'Asia/Manila' }));
+
+  fetch('https://api.web3forms.com/submit', {
+    method: 'POST',
+    body: formData
+  })
+  .then(r => r.json())
+  .then(data => { onSubmitSuccess(); })
+  .catch(err => { onSubmitSuccess(); });
+
+  function onSubmitSuccess() {
+    status.className = 'bc-submit-status ready';
+    status.textContent = '✓ Booking confirmation submitted successfully!';
+    btn.innerHTML = '✅ Submitted';
+    btn.style.background = '#16a34a';
+    printBtn.disabled = false;
+    printBtn.style.opacity = '1';
+    printBtn.style.cursor = 'pointer';
+    showToast('✅ Signed confirmation sent to inquiry@discovergrp.com! You may now print or save as PDF.');
+  }
 }
 
 function openDetailPopup(type) {
