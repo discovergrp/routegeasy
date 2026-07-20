@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Route G Easy — Europe Travel Sales Funnel | Discover Group</title>
-<meta name="description" content="Route G Easy: 16 Days / 13 Nights European Tour — Netherlands, Belgium, France, Luxembourg, Germany, Switzerland, Italy, Vatican. Starting at ₱165,000/head with flexible payment options.">
+<meta name="description" content="Route G Easy: 16 Days / 13 Nights European Tour — Netherlands, Belgium, France, Luxembourg, Germany, Switzerland, Italy, Vatican. Starting at ₱180,000/head with flexible payment options.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -89,6 +89,20 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Playfair Display', serif; }
 
 /* CTA Row */
 .cta-row { display: flex; gap: 1rem; justify-content: center; margin: 2rem 0 3rem; flex-wrap: wrap; }
+.promo-banner { background: linear-gradient(135deg, #1565c0, #003e8f); border: 2px solid var(--accent); border-radius: 1rem; padding: 2rem; text-align: center; max-width: 700px; margin: 2rem auto; }
+.promo-banner .promo-title { font-size: 0.85rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.7); margin-bottom: 0.5rem; }
+.promo-banner .promo-highlight { font-size: 1.1rem; font-weight: 700; margin: 1rem 0; color: white; }
+.promo-banner .promo-highlight .gold { color: transparent; background: var(--accent-gradient); -webkit-background-clip: text; background-clip: text; font-weight: 800; }
+.promo-banner .promo-value { font-size: 0.9rem; color: var(--accent); font-weight: 600; }
+.promo-banner .promo-note { font-size: 0.8rem; color: rgba(255,255,255,0.6); font-style: italic; margin-top: 0.5rem; }
+.promo-banner .countdown-label { display: flex; align-items: center; justify-content: center; gap: 0.5rem; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 1rem; }
+.promo-banner .countdown-label span { background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.countdown-boxes { display: flex; align-items: center; justify-content: center; gap: 0.75rem; margin-bottom: 1.5rem; }
+.countdown-box { display: flex; flex-direction: column; align-items: center; }
+.countdown-box .cd-value { width: 60px; height: 60px; border-radius: 0.5rem; border: 1.5px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 900; font-family: 'Inter', monospace; color: white; }
+.countdown-box.highlight .cd-value { background: rgba(255,255,255,0.1); color: #fcd34d; }
+.countdown-box .cd-label { font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.5); margin-top: 0.3rem; }
+.promo-banner .lock-text { font-size: 0.8rem; color: rgba(255,255,255,0.6); margin-bottom: 1rem; }
 
 /* Features Section */
 .features { background: #ffffff; padding: 5rem 1.5rem; color: var(--text-dark); border-top: 3px solid var(--accent); }
@@ -400,11 +414,28 @@ footer { background: var(--primary-dark); border-top: 3px solid var(--accent); p
     <p style="color:rgba(255,255,255,0.78);font-size:0.95rem;line-height:1.8;">Route G Easy is designed for travelers who want to experience Europe at a comfortable pace. With 1-2 nights per city and a relaxed daily schedule, you'll visit eight magnificent countries across Europe—Netherlands, Belgium, France, Luxembourg, Germany, Switzerland, Italy, and Vatican—without feeling rushed.</p>
     <p style="margin-top:1rem;color:rgba(255,255,255,0.78);font-size:0.95rem;line-height:1.8;">Amsterdam. Brussels. Paris. Luxembourg City. Frankfurt. Zurich. Milan. Rome — each city carefully selected to give you a complete European experience, with optional day tours to iconic destinations and local experiences.</p>
   </div>
+
+  <!-- Promo Countdown Banner -->
+  <div class="promo-banner">
+    <div class="countdown-label">⏰ <span>PROMO ENDS ON JULY 28, 2026</span></div>
+    <div class="countdown-boxes">
+      <div class="countdown-box"><div class="cd-value" id="cd-days">00</div><div class="cd-label">Days</div></div>
+      <div class="countdown-box"><div class="cd-value" id="cd-hours">00</div><div class="cd-label">Hours</div></div>
+      <div class="countdown-box"><div class="cd-value" id="cd-mins">00</div><div class="cd-label">Mins</div></div>
+      <div class="countdown-box highlight"><div class="cd-value" id="cd-secs">00</div><div class="cd-label">Secs</div></div>
+    </div>
+    <div class="lock-text">Lock in your slots before the countdown hits zero to guarantee current pricing &amp; perks!</div>
+    <div class="promo-title">Reserve your slot and get</div>
+    <div class="promo-highlight"><span class="gold">FREE 1-Night Pre-Extension in Amsterdam</span></div>
+    <div class="promo-highlight" style="margin-top:0;"><span class="gold">&amp; FREE 1-Night Post-Extension in Rome</span></div>
+    <div class="promo-note">Limited slots only — secure yours now!</div>
+  </div>
+
   <div class="stats-row">
     <div class="stat-card">
       <div class="stat-icon">💰</div>
       <div class="stat-title">All-In</div>
-      <div class="stat-sub">₱165,000</div>
+      <div class="stat-sub">₱180,000</div>
     </div>
     <div class="stat-card">
       <div class="stat-icon">🏖️</div>
@@ -535,7 +566,7 @@ footer { background: var(--primary-dark); border-top: 3px solid var(--accent); p
       <!-- Full Cash Column -->
       <div class="pricing-header-col">
         <span class="col-badge">FULL CASH</span>
-        <div class="col-amount">₱165,000</div>
+        <div class="col-amount">₱180,000</div>
         <a class="view-schedule-btn dark" href="#reservation-form">View Schedule</a>
       </div>
     </div>
@@ -545,13 +576,13 @@ footer { background: var(--primary-dark); border-top: 3px solid var(--accent); p
       <div class="pricing-row-item">
         <div class="row-label">Total Package Cost</div>
         <div class="row-value" style="border-left:1px solid #e8edf5;">
-          <strong style="color:var(--primary);">₱165,000</strong>
+          <strong style="color:var(--primary);">₱180,000</strong>
         </div>
         <div class="row-value" style="border-left:2px solid rgba(230,173,0,0.3);border-right:2px solid rgba(230,173,0,0.3);background:rgba(230,173,0,0.02);">
-          <strong style="color:var(--accent);">₱165,000</strong>
+          <strong style="color:var(--accent);">₱180,000</strong>
         </div>
         <div class="row-value" style="border-left:1px solid #e8edf5;">
-          <strong style="color:var(--primary);">₱165,000</strong>
+          <strong style="color:var(--primary);">₱180,000</strong>
         </div>
       </div>
       
@@ -855,7 +886,7 @@ footer { background: var(--primary-dark); border-top: 3px solid var(--accent); p
               <label for="pkg-full" style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.3rem;">
                 <span style="font-size: 0.9rem; font-weight: 700;">Full Package</span>
                 <span style="font-size: 0.75rem; color: var(--muted);">With Airfare</span>
-                <span style="font-size: 1.3rem; font-weight: 900; color: var(--accent);">₱165,000</span>
+                <span style="font-size: 1.3rem; font-weight: 900; color: var(--accent);">₱180,000</span>
               </label>
             </div>
             <div class="toggle-option">
@@ -863,7 +894,7 @@ footer { background: var(--primary-dark); border-top: 3px solid var(--accent); p
               <label for="pkg-land" style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.3rem;">
                 <span style="font-size: 0.9rem; font-weight: 700;">Land Arrangement Only</span>
                 <span style="font-size: 0.75rem; color: var(--muted);">No Airfare & Airport Transfer</span>
-                <span style="font-size: 1.3rem; font-weight: 900; color: var(--accent);">₱135,000</span>
+                <span style="font-size: 1.3rem; font-weight: 900; color: var(--accent);">₱150,000</span>
               </label>
             </div>
           </div>
@@ -898,7 +929,7 @@ footer { background: var(--primary-dark); border-top: 3px solid var(--accent); p
             <div style="border-top: 1px solid var(--border); padding-top: 1rem; margin-top: 1rem;">
               <div style="display: flex; justify-content: space-between; font-size: 0.9rem; font-weight: 700;">
                 <span>Total (11 months)</span>
-                <span id="monthly-total" style="color: var(--accent);">₱165,000 per head</span>
+                <span id="monthly-total" style="color: var(--accent);">₱180,000 per head</span>
               </div>
             </div>
           </div>
@@ -920,7 +951,7 @@ footer { background: var(--primary-dark); border-top: 3px solid var(--accent); p
             <div style="border-top: 1px solid var(--border); padding-top: 1rem; margin-top: 1rem;">
               <div style="display: flex; justify-content: space-between; font-size: 0.9rem; font-weight: 700;">
                 <span>Grand Total</span>
-                <span style="color: var(--accent);">₱165,000</span>
+                <span style="color: var(--accent);">₱180,000</span>
               </div>
             </div>
           </div>
@@ -931,7 +962,7 @@ footer { background: var(--primary-dark); border-top: 3px solid var(--accent); p
             <p style="font-size: 0.85rem; color: var(--muted); margin-bottom: 1.5rem;">Pay the full amount upfront.</p>
             <div style="display: flex; justify-content: space-between; font-size: 0.9rem; font-weight: 700;">
               <span>Full Payment (per head)</span>
-              <span style="color: var(--accent);">₱165,000</span>
+              <span style="color: var(--accent);">₱180,000</span>
             </div>
           </div>
         </div>
@@ -1040,7 +1071,7 @@ footer { background: var(--primary-dark); border-top: 3px solid var(--accent); p
       <div class="bc-section-title">Package Rate &amp; Booking Details</div>
       <div class="bc-details-grid" style="margin-bottom:1.5rem;">
         <div class="bc-detail-item"><label>Package</label><p>Route G Easy — 16 Days / 13 Nights</p></div>
-        <div class="bc-detail-item"><label>Standard Rate</label><p class="highlight" id="bc-rate">₱165,000 per head</p></div>
+        <div class="bc-detail-item"><label>Standard Rate</label><p class="highlight" id="bc-rate">₱180,000 per head</p></div>
         <div class="bc-detail-item"><label>Destinations</label><p>Netherlands, Belgium, France, Luxembourg, Germany, Switzerland, Italy &amp; Vatican</p></div>
         <div class="bc-detail-item"><label>Total Passengers</label><p id="bc-pax-count">1 person(s)</p></div>
       </div>
@@ -1408,7 +1439,7 @@ function generateBookingConfirmation() {
 
   const fullName = [firstName, middleName, lastName].filter(Boolean).join(' ');
   const packageLabel = packageType === 'full' ? 'Full Package (With Airfare)' : 'Land Arrangement Only (No Airfare)';
-  const ratePerHead = packageType === 'full' ? 165000 : 135000;
+  const ratePerHead = packageType === 'full' ? 180000 : 150000;
   const paymentLabel = paymentScheme === 'monthly' ? 'Monthly Installment' : paymentScheme === 'down' ? '₱50,000 Down Payment' : 'Full Cash';
 
   // Format DOB
@@ -1713,7 +1744,7 @@ function submitSignedConfirmation() {
   formData.append('Package_Type', bd.packageLabel || '');
   formData.append('Payment_Scheme', bd.paymentScheme === 'monthly' ? 'Monthly Installment' : bd.paymentScheme === 'down' ? '₱50,000 Down Payment' : 'Full Cash');
   formData.append('Total_Passengers', String(bd.travelersCount || 1));
-  formData.append('Grand_Total', '₱' + ((bd.ratePerHead || 165000) * (bd.travelersCount || 1)).toLocaleString());
+  formData.append('Grand_Total', '₱' + ((bd.ratePerHead || 180000) * (bd.travelersCount || 1)).toLocaleString());
   formData.append('Travel_Consultant', bd.consultant || '');
   formData.append('Special_Requests', bd.notes || 'None');
   formData.append('Terms_Accepted', 'Yes - Client accepted all Terms & Conditions');
@@ -1764,6 +1795,27 @@ function showToast(message) {
 document.addEventListener('DOMContentLoaded', function() {
   initItinerary();
 });
+
+// ==================== COUNTDOWN TIMER ====================
+function updateCountdown() {
+  const target = new Date('2026-07-28T23:59:59+08:00').getTime();
+  const now = Date.now();
+  const diff = Math.max(0, target - now);
+  const days = Math.floor(diff / (1000*60*60*24));
+  const hours = Math.floor((diff/(1000*60*60))%24);
+  const mins = Math.floor((diff/(1000*60))%60);
+  const secs = Math.floor((diff/1000)%60);
+  const daysEl = document.getElementById('cd-days');
+  const hoursEl = document.getElementById('cd-hours');
+  const minsEl = document.getElementById('cd-mins');
+  const secsEl = document.getElementById('cd-secs');
+  if (daysEl) daysEl.textContent = String(days).padStart(2,'0');
+  if (hoursEl) hoursEl.textContent = String(hours).padStart(2,'0');
+  if (minsEl) minsEl.textContent = String(mins).padStart(2,'0');
+  if (secsEl) secsEl.textContent = String(secs).padStart(2,'0');
+}
+updateCountdown();
+setInterval(updateCountdown, 1000);
 </script>
 
 
