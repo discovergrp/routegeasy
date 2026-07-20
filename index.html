@@ -996,6 +996,11 @@ footer { background: var(--primary-dark); border-top: 3px solid var(--accent); p
         <div class="bc-detail-item"><label>Travel Date</label><p class="highlight" id="bc-travel-date">—</p></div>
         <div class="bc-detail-item"><label>Payment Scheme</label><p id="bc-payment-scheme">—</p></div>
       </div>
+      <!-- Special Requests / Notes -->
+      <div class="bc-section-title">Special Requests / Notes</div>
+      <div id="bc-notes-box" style="background:#f8faff;border:1px solid #dce6f5;border-radius:0.5rem;padding:1rem 1.25rem;margin-bottom:1.5rem;min-height:3rem;">
+        <p id="bc-notes-text" style="font-size:0.9rem;color:#374151;line-height:1.6;margin:0;">—</p>
+      </div>
       <!-- Passenger Information -->
       <div class="bc-section-title">Passenger Information</div>
       <div style="overflow-x:auto;margin-bottom:2rem;">
@@ -1405,6 +1410,10 @@ function generateBookingConfirmation() {
   document.getElementById('bc-payment-scheme').textContent = paymentLabel;
   document.getElementById('bc-rate').textContent = `₱${ratePerHead.toLocaleString()} per head`;
   document.getElementById('bc-pax-count').textContent = `${travelersCount} person(s)`;
+  // Fill special requests / notes
+  const notesEl = document.getElementById('notes');
+  const notesVal = notesEl ? notesEl.value.trim() : '';
+  document.getElementById('bc-notes-text').textContent = notesVal || 'No special requests.';
 
   // Passenger table
   const passengersTbody = document.getElementById('bc-passengers');
