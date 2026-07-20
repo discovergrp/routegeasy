@@ -449,7 +449,7 @@ footer { background: var(--primary-dark); border-top: 3px solid var(--accent); p
       </div>
       
       <div>
-        <div class="day-tabs">
+        <div class="day-tabs" id="day-tabs">
           <span class="day-tab active" onclick="selectDay(0)">Day 01</span>
           <span class="day-tab" onclick="selectDay(1)">Day 02</span>
           <span class="day-tab" onclick="selectDay(2)">Day 03</span>
@@ -1216,10 +1216,6 @@ let selectedPayment = 'installment';
 
 // ==================== ITINERARY RENDERING ====================
 function initItinerary() {
-  const tabsEl = document.getElementById('day-tabs');
-  tabsEl.innerHTML = ITINERARY.map((d, i) => 
-    `<span class="day-tab${i === 0 ? ' active' : ''}" onclick="selectDay(${i})">Day ${String(d.day).padStart(2,'0')}</span>`
-  ).join('');
   renderDay(0);
 }
 
