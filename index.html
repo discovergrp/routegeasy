@@ -646,138 +646,75 @@ footer { background: var(--primary-dark); border-top: 3px solid var(--accent); p
 
 <!-- Package Modals -->
 <!-- Inclusions Modal -->
-<div id="modal-inclusions" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.75);z-index:2000;align-items:center;justify-content:center;padding:1rem;" onclick="if(event.target===this)closePackageModal('inclusions')">
-  <div style="background:white;border-radius:1.25rem;max-width:560px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 25px 60px rgba(0,0,0,0.3);">
-    <div style="background:linear-gradient(135deg,#003e8f,#002d6b);padding:2rem 2rem 1.5rem;border-radius:1.25rem 1.25rem 0 0;position:relative;">
-      <button onclick="closePackageModal('inclusions')" style="position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,0.15);border:none;color:white;width:2rem;height:2rem;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;">✕</button>
-      <div style="display:flex;align-items:center;gap:0.75rem;">
-        <span style="font-size:1.5rem;color:#4ade80;">✓</span>
-        <div>
-          <h3 style="color:white;font-family:'Playfair Display',serif;font-size:1.4rem;margin:0;">Package Inclusions</h3>
-          <p style="color:rgba(255,255,255,0.7);font-size:0.8rem;margin:0.25rem 0 0;">What's included in your Route G Easy package</p>
-        </div>
+<div id="modal-inclusions" onclick="if(event.target===this)closePackageModal('inclusions')" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.55);z-index:2000;align-items:center;justify-content:center;padding:1rem;">
+  <div style="background:white;border-radius:1rem;max-width:520px;width:100%;max-height:88vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.25);">
+    <!-- Modal Header -->
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;border-bottom:1px solid #e5e7eb;">
+      <div style="display:flex;align-items:center;gap:0.6rem;">
+        <span style="color:#16a34a;font-size:1.2rem;font-weight:900;">✓</span>
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.2rem;color:#16a34a;margin:0;">Package Inclusions</h3>
       </div>
+      <button onclick="closePackageModal('inclusions')" style="background:none;border:none;font-size:1.1rem;color:#6b7280;cursor:pointer;padding:0.25rem;line-height:1;">✕</button>
     </div>
-    <div style="padding:2rem;">
+    <!-- Modal Body -->
+    <div style="padding:1.5rem;">
       <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.75rem;">
-        <li style="display:flex;align-items:flex-start;gap:0.75rem;padding:0.75rem;background:#f0f9f0;border-radius:0.5rem;border-left:3px solid #4ade80;">
-          <span style="color:#16a34a;font-weight:700;flex-shrink:0;margin-top:0.1rem;">✓</span>
-          <span style="font-size:0.9rem;color:#1a2e1a;line-height:1.5;">Oneway Airfare (Manila – Amsterdam)</span>
-        </li>
-        <li style="display:flex;align-items:flex-start;gap:0.75rem;padding:0.75rem;background:#f0f9f0;border-radius:0.5rem;border-left:3px solid #4ade80;">
-          <span style="color:#16a34a;font-weight:700;flex-shrink:0;margin-top:0.1rem;">✓</span>
-          <span style="font-size:0.9rem;color:#1a2e1a;line-height:1.5;">Oneway Airfare (Rome – Manila)</span>
-        </li>
-        <li style="display:flex;align-items:flex-start;gap:0.75rem;padding:0.75rem;background:#f0f9f0;border-radius:0.5rem;border-left:3px solid #4ade80;">
-          <span style="color:#16a34a;font-weight:700;flex-shrink:0;margin-top:0.1rem;">✓</span>
-          <span style="font-size:0.9rem;color:#1a2e1a;line-height:1.5;">Airport transfers all throughout the tour</span>
-        </li>
-        <li style="display:flex;align-items:flex-start;gap:0.75rem;padding:0.75rem;background:#f0f9f0;border-radius:0.5rem;border-left:3px solid #4ade80;">
-          <span style="color:#16a34a;font-weight:700;flex-shrink:0;margin-top:0.1rem;">✓</span>
-          <span style="font-size:0.9rem;color:#1a2e1a;line-height:1.5;">13 nights Hotel Accommodation in Europe</span>
-        </li>
-        <li style="display:flex;align-items:flex-start;gap:0.75rem;padding:0.75rem;background:#f0f9f0;border-radius:0.5rem;border-left:3px solid #4ade80;">
-          <span style="color:#16a34a;font-weight:700;flex-shrink:0;margin-top:0.1rem;">✓</span>
-          <span style="font-size:0.9rem;color:#1a2e1a;line-height:1.5;">Complimentary daily breakfast</span>
-        </li>
-        <li style="display:flex;align-items:flex-start;gap:0.75rem;padding:0.75rem;background:#f0f9f0;border-radius:0.5rem;border-left:3px solid #4ade80;">
-          <span style="color:#16a34a;font-weight:700;flex-shrink:0;margin-top:0.1rem;">✓</span>
-          <span style="font-size:0.9rem;color:#1a2e1a;line-height:1.5;">Visit Netherlands, Belgium, France, Luxembourg, Germany, Switzerland, Italy, and Vatican (as stated in the itinerary)</span>
-        </li>
-        <li style="display:flex;align-items:flex-start;gap:0.75rem;padding:0.75rem;background:#f0f9f0;border-radius:0.5rem;border-left:3px solid #4ade80;">
-          <span style="color:#16a34a;font-weight:700;flex-shrink:0;margin-top:0.1rem;">✓</span>
-          <span style="font-size:0.9rem;color:#1a2e1a;line-height:1.5;">Coach transfers all throughout the tour</span>
-        </li>
-        <li style="display:flex;align-items:flex-start;gap:0.75rem;padding:0.75rem;background:#f0f9f0;border-radius:0.5rem;border-left:3px solid #4ade80;">
-          <span style="color:#16a34a;font-weight:700;flex-shrink:0;margin-top:0.1rem;">✓</span>
-          <span style="font-size:0.9rem;color:#1a2e1a;line-height:1.5;">Airport terminal fee</span>
-        </li>
-        <li style="display:flex;align-items:flex-start;gap:0.75rem;padding:0.75rem;background:#f0f9f0;border-radius:0.5rem;border-left:3px solid #4ade80;">
-          <span style="color:#16a34a;font-weight:700;flex-shrink:0;margin-top:0.1rem;">✓</span>
-          <span style="font-size:0.9rem;color:#1a2e1a;line-height:1.5;">1 piece 20 kilos check-in luggage and 1 piece personal bag for Manila – Amsterdam and Rome – Manila flight</span>
-        </li>
+        <li style="display:flex;align-items:flex-start;gap:0.75rem;"><span style="color:#16a34a;font-weight:700;flex-shrink:0;margin-top:0.1rem;">✓</span><span style="font-size:0.9rem;color:#374151;line-height:1.6;">Oneway Airfare (Manila – Amsterdam)</span></li>
+        <li style="display:flex;align-items:flex-start;gap:0.75rem;"><span style="color:#16a34a;font-weight:700;flex-shrink:0;margin-top:0.1rem;">✓</span><span style="font-size:0.9rem;color:#374151;line-height:1.6;">Oneway Airfare (Rome – Manila)</span></li>
+        <li style="display:flex;align-items:flex-start;gap:0.75rem;"><span style="color:#16a34a;font-weight:700;flex-shrink:0;margin-top:0.1rem;">✓</span><span style="font-size:0.9rem;color:#374151;line-height:1.6;">Airport transfers all throughout the tour</span></li>
+        <li style="display:flex;align-items:flex-start;gap:0.75rem;"><span style="color:#16a34a;font-weight:700;flex-shrink:0;margin-top:0.1rem;">✓</span><span style="font-size:0.9rem;color:#374151;line-height:1.6;">13 nights Hotel Accommodation in Europe</span></li>
+        <li style="display:flex;align-items:flex-start;gap:0.75rem;"><span style="color:#16a34a;font-weight:700;flex-shrink:0;margin-top:0.1rem;">✓</span><span style="font-size:0.9rem;color:#374151;line-height:1.6;">Complimentary daily breakfast</span></li>
+        <li style="display:flex;align-items:flex-start;gap:0.75rem;"><span style="color:#16a34a;font-weight:700;flex-shrink:0;margin-top:0.1rem;">✓</span><span style="font-size:0.9rem;color:#374151;line-height:1.6;">Visit Netherlands, Belgium, France, Luxembourg, Germany, Switzerland, Italy, and Vatican (as stated in the itinerary)</span></li>
+        <li style="display:flex;align-items:flex-start;gap:0.75rem;"><span style="color:#16a34a;font-weight:700;flex-shrink:0;margin-top:0.1rem;">✓</span><span style="font-size:0.9rem;color:#374151;line-height:1.6;">Coach transfers all throughout the tour</span></li>
+        <li style="display:flex;align-items:flex-start;gap:0.75rem;"><span style="color:#16a34a;font-weight:700;flex-shrink:0;margin-top:0.1rem;">✓</span><span style="font-size:0.9rem;color:#374151;line-height:1.6;">Airport terminal fee</span></li>
+        <li style="display:flex;align-items:flex-start;gap:0.75rem;"><span style="color:#16a34a;font-weight:700;flex-shrink:0;margin-top:0.1rem;">✓</span><span style="font-size:0.9rem;color:#374151;line-height:1.6;">1 piece 20 kilos check-in luggage and 1 piece personal bag for Manila – Amsterdam and Rome – Manila flight</span></li>
       </ul>
-      <div style="margin-top:1.5rem;text-align:center;">
-        <button onclick="closePackageModal('inclusions')" style="background:linear-gradient(135deg,#003e8f,#002d6b);color:white;border:none;padding:0.75rem 2rem;border-radius:0.5rem;font-weight:700;cursor:pointer;font-size:0.9rem;">Close</button>
-      </div>
     </div>
   </div>
 </div>
 
 <!-- Exclusions Modal -->
-<div id="modal-exclusions" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.75);z-index:2000;align-items:center;justify-content:center;padding:1rem;" onclick="if(event.target===this)closePackageModal('exclusions')">
-  <div style="background:white;border-radius:1.25rem;max-width:560px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 25px 60px rgba(0,0,0,0.3);">
-    <div style="background:linear-gradient(135deg,#7f1d1d,#991b1b);padding:2rem 2rem 1.5rem;border-radius:1.25rem 1.25rem 0 0;position:relative;">
-      <button onclick="closePackageModal('exclusions')" style="position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,0.15);border:none;color:white;width:2rem;height:2rem;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;">✕</button>
-      <div style="display:flex;align-items:center;gap:0.75rem;">
-        <span style="font-size:1.5rem;color:#fca5a5;">✕</span>
-        <div>
-          <h3 style="color:white;font-family:'Playfair Display',serif;font-size:1.4rem;margin:0;">Package Exclusions</h3>
-          <p style="color:rgba(255,255,255,0.7);font-size:0.8rem;margin:0.25rem 0 0;">What's not included in your package</p>
-        </div>
+<div id="modal-exclusions" onclick="if(event.target===this)closePackageModal('exclusions')" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.55);z-index:2000;align-items:center;justify-content:center;padding:1rem;">
+  <div style="background:white;border-radius:1rem;max-width:520px;width:100%;max-height:88vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.25);">
+    <!-- Modal Header -->
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;border-bottom:1px solid #e5e7eb;">
+      <div style="display:flex;align-items:center;gap:0.6rem;">
+        <span style="color:#dc2626;font-size:1.2rem;font-weight:900;">✕</span>
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.2rem;color:#dc2626;margin:0;">Package Exclusions</h3>
       </div>
+      <button onclick="closePackageModal('exclusions')" style="background:none;border:none;font-size:1.1rem;color:#6b7280;cursor:pointer;padding:0.25rem;line-height:1;">✕</button>
     </div>
-    <div style="padding:2rem;">
+    <!-- Modal Body -->
+    <div style="padding:1.5rem;">
       <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.75rem;">
-        <li style="display:flex;align-items:flex-start;gap:0.75rem;padding:0.75rem;background:#fff5f5;border-radius:0.5rem;border-left:3px solid #ef4444;">
-          <span style="color:#dc2626;font-weight:700;flex-shrink:0;margin-top:0.1rem;">✕</span>
-          <span style="font-size:0.9rem;color:#2d1a1a;line-height:1.5;">Lunch and Dinner (for more diversity and freedom of food choices)</span>
-        </li>
-        <li style="display:flex;align-items:flex-start;gap:0.75rem;padding:0.75rem;background:#fff5f5;border-radius:0.5rem;border-left:3px solid #ef4444;">
-          <span style="color:#dc2626;font-weight:700;flex-shrink:0;margin-top:0.1rem;">✕</span>
-          <span style="font-size:0.9rem;color:#2d1a1a;line-height:1.5;">Mandatory Permits and City Tax in all countries to visit in Europe including compulsory tipping for driver, tour coordinator / guide for the entire trip: <strong>EUR 560/head</strong></span>
-        </li>
-        <li style="display:flex;align-items:flex-start;gap:0.75rem;padding:0.75rem;background:#fff5f5;border-radius:0.5rem;border-left:3px solid #ef4444;">
-          <span style="color:#dc2626;font-weight:700;flex-shrink:0;margin-top:0.1rem;">✕</span>
-          <span style="font-size:0.9rem;color:#2d1a1a;line-height:1.5;">Philippine Travel Tax: <strong>PHP 1,620/head</strong></span>
-        </li>
+        <li style="display:flex;align-items:flex-start;gap:0.75rem;"><span style="color:#dc2626;font-weight:700;flex-shrink:0;margin-top:0.1rem;">✕</span><span style="font-size:0.9rem;color:#374151;line-height:1.6;">Lunch and Dinner (for more diversity and freedom of food choices)</span></li>
+        <li style="display:flex;align-items:flex-start;gap:0.75rem;"><span style="color:#dc2626;font-weight:700;flex-shrink:0;margin-top:0.1rem;">✕</span><span style="font-size:0.9rem;color:#374151;line-height:1.6;">Mandatory Permits and City Tax in all countries to visit in Europe including compulsory tipping for driver, tour coordinator / guide for the entire trip: <strong>EUR 560/head</strong></span></li>
+        <li style="display:flex;align-items:flex-start;gap:0.75rem;"><span style="color:#dc2626;font-weight:700;flex-shrink:0;margin-top:0.1rem;">✕</span><span style="font-size:0.9rem;color:#374151;line-height:1.6;">Philippine Travel Tax: <strong>PHP 1,620/head</strong></span></li>
       </ul>
-      <div style="margin-top:1.5rem;text-align:center;">
-        <button onclick="closePackageModal('exclusions')" style="background:linear-gradient(135deg,#7f1d1d,#991b1b);color:white;border:none;padding:0.75rem 2rem;border-radius:0.5rem;font-weight:700;cursor:pointer;font-size:0.9rem;">Close</button>
-      </div>
     </div>
   </div>
 </div>
 
 <!-- Optionals Modal -->
-<div id="modal-optionals" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.75);z-index:2000;align-items:center;justify-content:center;padding:1rem;" onclick="if(event.target===this)closePackageModal('optionals')">
-  <div style="background:white;border-radius:1.25rem;max-width:560px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 25px 60px rgba(0,0,0,0.3);">
-    <div style="background:linear-gradient(135deg,#78350f,#92400e);padding:2rem 2rem 1.5rem;border-radius:1.25rem 1.25rem 0 0;position:relative;">
-      <button onclick="closePackageModal('optionals')" style="position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,0.15);border:none;color:white;width:2rem;height:2rem;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;">✕</button>
-      <div style="display:flex;align-items:center;gap:0.75rem;">
-        <span style="font-size:1.5rem;color:var(--accent-light);">◎</span>
-        <div>
-          <h3 style="color:white;font-family:'Playfair Display',serif;font-size:1.4rem;margin:0;">Optional Services</h3>
-          <p style="color:rgba(255,255,255,0.7);font-size:0.8rem;margin:0.25rem 0 0;">Add-on services available for your trip</p>
-        </div>
+<div id="modal-optionals" onclick="if(event.target===this)closePackageModal('optionals')" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.55);z-index:2000;align-items:center;justify-content:center;padding:1rem;">
+  <div style="background:white;border-radius:1rem;max-width:520px;width:100%;max-height:88vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.25);">
+    <!-- Modal Header -->
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;border-bottom:1px solid #e5e7eb;">
+      <div style="display:flex;align-items:center;gap:0.6rem;">
+        <span style="color:#003e8f;font-size:1.2rem;font-weight:900;">◎</span>
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.2rem;color:#003e8f;margin:0;">Optional Services</h3>
       </div>
+      <button onclick="closePackageModal('optionals')" style="background:none;border:none;font-size:1.1rem;color:#6b7280;cursor:pointer;padding:0.25rem;line-height:1;">✕</button>
     </div>
-    <div style="padding:2rem;">
+    <!-- Modal Body -->
+    <div style="padding:1.5rem;">
       <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.75rem;">
-        <li style="display:flex;align-items:flex-start;gap:0.75rem;padding:0.75rem;background:#fffbeb;border-radius:0.5rem;border-left:3px solid var(--accent);">
-          <span style="color:var(--accent);font-weight:700;flex-shrink:0;margin-top:0.1rem;">◎</span>
-          <span style="font-size:0.9rem;color:#2d2000;line-height:1.5;">Visa Assistance Fee and Appointment Fee: <strong>PHP 20,000 per pax</strong></span>
-        </li>
-        <li style="display:flex;align-items:flex-start;gap:0.75rem;padding:0.75rem;background:#fffbeb;border-radius:0.5rem;border-left:3px solid var(--accent);">
-          <span style="color:var(--accent);font-weight:700;flex-shrink:0;margin-top:0.1rem;">◎</span>
-          <span style="font-size:0.9rem;color:#2d2000;line-height:1.5;">Visa Fee Schengen: <strong>EUR 90</strong> <em>(subject to change without prior notice)</em></span>
-        </li>
-        <li style="display:flex;align-items:flex-start;gap:0.75rem;padding:0.75rem;background:#fffbeb;border-radius:0.5rem;border-left:3px solid var(--accent);">
-          <span style="color:var(--accent);font-weight:700;flex-shrink:0;margin-top:0.1rem;">◎</span>
-          <span style="font-size:0.9rem;color:#2d2000;line-height:1.5;">Travel Insurance: <strong>PHP 6,000 per pax</strong></span>
-        </li>
-        <li style="display:flex;align-items:flex-start;gap:0.75rem;padding:0.75rem;background:#fffbeb;border-radius:0.5rem;border-left:3px solid var(--accent);">
-          <span style="color:var(--accent);font-weight:700;flex-shrink:0;margin-top:0.1rem;">◎</span>
-          <span style="font-size:0.9rem;color:#2d2000;line-height:1.5;">Flight Rebooking Fee: <strong>PHP 10,000 / head</strong> <em>(subject to availability)</em></span>
-        </li>
-        <li style="display:flex;align-items:flex-start;gap:0.75rem;padding:0.75rem;background:#fffbeb;border-radius:0.5rem;border-left:3px solid var(--accent);">
-          <span style="color:var(--accent);font-weight:700;flex-shrink:0;margin-top:0.1rem;">◎</span>
-          <span style="font-size:0.9rem;color:#2d2000;line-height:1.5;">Admission Fee / Activity Fee</span>
-        </li>
+        <li style="display:flex;align-items:flex-start;gap:0.75rem;"><span style="color:#6b7280;flex-shrink:0;margin-top:0.1rem;">◎</span><span style="font-size:0.9rem;color:#374151;line-height:1.6;">Visa assistance fee &amp; appointment fee: <strong>PHP 20,000/pax</strong></span></li>
+        <li style="display:flex;align-items:flex-start;gap:0.75rem;"><span style="color:#6b7280;flex-shrink:0;margin-top:0.1rem;">◎</span><span style="font-size:0.9rem;color:#374151;line-height:1.6;">Visa Fee Schengen: <strong>EUR 90</strong> <em>(subject to change without prior notice)</em></span></li>
+        <li style="display:flex;align-items:flex-start;gap:0.75rem;"><span style="color:#6b7280;flex-shrink:0;margin-top:0.1rem;">◎</span><span style="font-size:0.9rem;color:#374151;line-height:1.6;">Travel Insurance: <strong>PHP 6,000/pax</strong></span></li>
+        <li style="display:flex;align-items:flex-start;gap:0.75rem;"><span style="color:#6b7280;flex-shrink:0;margin-top:0.1rem;">◎</span><span style="font-size:0.9rem;color:#374151;line-height:1.6;">Flight Rebooking Fee: <strong>PHP 10,000/head</strong> <em>(subject to availability)</em></span></li>
+        <li style="display:flex;align-items:flex-start;gap:0.75rem;"><span style="color:#6b7280;flex-shrink:0;margin-top:0.1rem;">◎</span><span style="font-size:0.9rem;color:#374151;line-height:1.6;">Admission Fee / Activity Fee</span></li>
       </ul>
-      <div style="margin-top:1.5rem;text-align:center;">
-        <button onclick="closePackageModal('optionals')" style="background:linear-gradient(135deg,#78350f,#92400e);color:white;border:none;padding:0.75rem 2rem;border-radius:0.5rem;font-weight:700;cursor:pointer;font-size:0.9rem;">Close</button>
-      </div>
     </div>
   </div>
 </div>
@@ -1659,6 +1596,9 @@ function submitSignedConfirmation() {
 }
 
 function openDetailPopup(type) {
+  openPackageModal(type);
+}
+function openPackageModal(type) {
   const modal = document.getElementById('modal-' + type);
   if (modal) { modal.style.display = 'flex'; }
 }
