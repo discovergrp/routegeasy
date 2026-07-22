@@ -1407,6 +1407,10 @@ function updateTravelers() {
           <div class="form-group"><label>Date of Birth *</label><input type="date" required></div>
           <div class="form-group"><label>Gender *</label><select required><option>Select Gender</option><option>Male</option><option>Female</option></select></div>
         </div>
+        <div class="form-grid-2" style="margin-top:0.75rem;">
+          <div class="form-group"><label>Contact Number *</label><input type="tel" placeholder="e.g. 09XXXXXXXXX" required></div>
+          <div class="form-group"><label>Email Address *</label><input type="email" placeholder="email@example.com" required></div>
+        </div>
       </div>`;
     }
     list.innerHTML = html;
@@ -1493,21 +1497,20 @@ function generateBookingConfirmation() {
   `;
   passengersTbody.appendChild(mainRow);
 
-  // Additional travelers
+  // Additional travelers — field order: First, Middle, Last, DOB, Gender, Contact, Email
   const addlBlocks = document.querySelectorAll('.traveler-block');
   addlBlocks.forEach((block, idx) => {
     const inputs = block.querySelectorAll('input, select');
     const aFN = inputs[0]?.value || '—';
     const aMN = inputs[1]?.value || '—';
     const aLN = inputs[2]?.value || '—';
-    const aSfx = inputs[3]?.value || '—';
+    const aDob = inputs[3]?.value || '';
     const aGen = inputs[4]?.value || '—';
     const aContact = inputs[5]?.value || '—';
     const aEmail = inputs[6]?.value || '—';
-    const aDob = inputs[7]?.value || '';
     const aDobFmt = aDob ? new Date(aDob+'T00:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) : '—';
     const row = document.createElement('tr');
-    row.innerHTML = `<td style="font-weight:700;">${idx+2}</td><td class="font-bold">${aFN}</td><td>${aMN}</td><td class="font-bold">${aLN}</td><td>${aSfx !== 'None' ? aSfx : '—'}</td><td>${aGen}</td><td class="mono">${aContact}</td><td class="mono">${aEmail}</td><td class="mono">${aDobFmt}</td>`;
+    row.innerHTML = `<td style="font-weight:700;">${idx+2}</td><td class="font-bold">${aFN}</td><td>${aMN}</td><td class="font-bold">${aLN}</td><td>—</td><td>${aGen}</td><td class="mono">${aContact}</td><td class="mono">${aEmail}</td><td class="mono">${aDobFmt}</td>`;
     passengersTbody.appendChild(row);
   });
 
@@ -1621,8 +1624,11 @@ function generateBookingConfirmation() {
         const aLN = inputs[2]?.value || '';
         const aDob = inputs[3]?.value || '';
         const aGen = inputs[4]?.value || '';
+        const aContact = inputs[5]?.value || '';
+        const aEmail = inputs[6]?.value || '';
         message += `\nTraveler ${idx + 2}: ${aFN} ${aMN} ${aLN}\n`;
         message += `  Gender: ${aGen} | DOB: ${aDob}\n`;
+        message += `  Contact: ${aContact} | Email: ${aEmail}\n`;
       });
     }
     if (notesVal) message += `\nNOTES: ${notesVal}`;
