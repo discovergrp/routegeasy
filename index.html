@@ -1454,7 +1454,7 @@ function generateBookingConfirmation() {
   document.getElementById('bc-package').textContent = packageLabel;
   document.getElementById('bc-travel-date').textContent = travelDate || '—';
   document.getElementById('bc-payment-scheme').textContent = paymentLabel;
-  document.getElementById('bc-rate').textContent = `₱${ratePerHead.toLocaleString()} per head`;
+  document.getElementById('bc-rate').textContent = `₱${ratePerHead.toLocaleString()} per head (standard)`;
   document.getElementById('bc-pax-count').textContent = `${travelersCount} person(s)`;
   // Fill special requests / notes
   const notesEl = document.getElementById('notes');
@@ -1610,7 +1610,8 @@ function generateBookingConfirmation() {
   lastBookingData = {
     firstName, middleName, lastName, suffix, gender, dob, contactNo, email,
     travelersCount, travelDate, travelDateLabel, consultant, packageType, paymentScheme,
-    packageLabel, ratePerHead, totalAmount: ratePerHead * travelersCount,
+    packageLabel, ratePerHead, totalAmount: bcGrandTotal,
+    grandTotal: bcGrandTotal, classified: bcClassified,
     notes: notesVal, refNo, fullName
   };
 
@@ -1655,7 +1656,8 @@ function generateBookingConfirmation() {
       package_type: packageLabel,
       payment_scheme: paymentLabel,
       travelers_count: travelersCount + ' person(s)',
-      total_amount: `₱${(ratePerHead * travelersCount).toLocaleString()}`,
+      total_amount: `₱${bcGrandTotal.toLocaleString()}`,
+      pricing_breakdown: bcClassified.map(p => `${p.name}: ₱${p.finalRate.toLocaleString()}${p.discount > 0 ? ` (-₱${p.discount.toLocaleString()} ${getCategoryLabel(p.category)} discount)` : ''}`).join(' | '),
       travel_consultant: consultant,
       booking_reference: refNo,
       message: message
@@ -1757,7 +1759,11 @@ function submitSignedConfirmation() {
   formData.append('Package_Type', bd.packageLabel || '');
   formData.append('Payment_Scheme', bd.paymentScheme === 'monthly' ? 'Monthly Installment' : bd.paymentScheme === 'down' ? '₱50,000 Down Payment' : 'Full Cash');
   formData.append('Total_Passengers', String(bd.travelersCount || 1));
-  formData.append('Grand_Total', '₱' + ((bd.ratePerHead || 180000) * (bd.travelersCount || 1)).toLocaleString());
+  formData.append('Grand_Total', '₱' + (bd.grandTotal || (bd.ratePerHead || 180000) * (bd.travelersCount || 1)).toLocaleString());
+  if (bd.classified && bd.classified.some(p => p.category !== 'adult')) {
+    const pricingLines = bd.classified.map(p => `${p.name}: ₱${p.finalRate.toLocaleString()}${p.discount > 0 ? ` (-₱${p.discount.toLocaleString()} ${getCategoryLabel(p.category)} discount)` : ''}`).join('\n');
+    formData.append('Pricing_Breakdown', pricingLines);
+  }
   formData.append('Travel_Consultant', bd.consultant || '');
   formData.append('Special_Requests', bd.notes || 'None');
   formData.append('Terms_Accepted', 'Yes - Client accepted all Terms & Conditions');
