@@ -1615,63 +1615,6 @@ function generateBookingConfirmation() {
     notes: notesVal, refNo, fullName
   };
 
-  // ===== SEND INITIAL BOOKING NOTIFICATION VIA WEB3FORMS =====
-  (function sendInitialBookingEmail() {
-    const count = travelersCount;
-    let message = `PRIMARY TRAVELER:\n`;
-    message += `Name: ${firstName} ${middleName} ${lastName} ${suffix !== 'None' ? suffix : ''}\n`;
-    message += `Gender: ${gender} | DOB: ${dob}\n`;
-    message += `Contact: ${contactNo} | Email: ${email}\n`;
-    // Additional travelers from .traveler-block
-    const addlBlocks = document.querySelectorAll('.traveler-block');
-    if (travelersCount > 1) {
-      message += `\nADDITIONAL TRAVELERS:\n`;
-      for (let i = 2; i <= travelersCount; i++) {
-        const aFN = document.querySelector(`.traveler-field[data-idx="${i}"][data-field="firstName"]`)?.value || '';
-        const aMN = document.querySelector(`.traveler-field[data-idx="${i}"][data-field="middleName"]`)?.value || '';
-        const aLN = document.querySelector(`.traveler-field[data-idx="${i}"][data-field="lastName"]`)?.value || '';
-        const aDob = document.querySelector(`.traveler-field[data-idx="${i}"][data-field="dob"]`)?.value || '';
-        const aGen = document.querySelector(`.traveler-field[data-idx="${i}"][data-field="gender"]`)?.value || '';
-        const aContact = document.querySelector(`.traveler-field[data-idx="${i}"][data-field="contact"]`)?.value || '';
-        const aEmail = document.querySelector(`.traveler-field[data-idx="${i}"][data-field="email"]`)?.value || '';
-        message += `\nTraveler ${i}: ${aFN} ${aMN} ${aLN}\n`;
-        message += `  Gender: ${aGen} | DOB: ${aDob}\n`;
-        message += `  Contact: ${aContact} | Email: ${aEmail}\n`;
-      }
-    }
-    if (notesVal) message += `\nNOTES: ${notesVal}`;
-    const formData = {
-      access_key: '7332ba6f-c90e-4d55-ac88-cf63c72e4e48',
-      subject: `New Route G Easy Booking: ${firstName} ${middleName} ${lastName}${suffix && suffix !== 'None' ? ' ' + suffix : ''} - ${travelDateLabel}`,
-      from_name: `${firstName} ${middleName} ${lastName}${suffix && suffix !== 'None' ? ' ' + suffix : ''}`,
-      first_name: firstName,
-      middle_name: middleName,
-      last_name: lastName,
-      suffix: suffix || 'None',
-      gender: gender,
-      date_of_birth: dob,
-      email: email,
-      contact_number: contactNo,
-      travel_date: travelDateLabel,
-      package_type: packageLabel,
-      payment_scheme: paymentLabel,
-      travelers_count: travelersCount + ' person(s)',
-      total_amount: `₱${bcGrandTotal.toLocaleString()}`,
-      pricing_breakdown: bcClassified.map(p => `${p.name}: ₱${p.finalRate.toLocaleString()}${p.discount > 0 ? ` (-₱${p.discount.toLocaleString()} ${getCategoryLabel(p.category)} discount)` : ''}`).join(' | '),
-      travel_consultant: consultant,
-      booking_reference: refNo,
-      message: message
-    };
-    fetch('https://api.web3forms.com/submit', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData)
-    })
-    .then(res => res.json())
-    .then(result => { console.log('Booking notification sent:', result); })
-    .catch(err => { console.error('Web3Forms error:', err); });
-  })();
-
   // Show the overlay
   const overlay = document.getElementById('bc-overlay');
   overlay.style.display = 'block';
@@ -1739,31 +1682,51 @@ function submitSignedConfirmation() {
   status.className = 'bc-submit-status pending';
   status.textContent = 'Sending your signed confirmation...';
 
-  // Get signature as data URL
-  const sigDataUrl = sigCanvas ? sigCanvas.toDataURL('image/png') : '';
+  const bd = lastBookingData || {};
+
+  // Build comprehensive all-travelers list
+  const primaryName = [bd.firstName, bd.middleName, bd.lastName, bd.suffix && bd.suffix !== 'None' ? bd.suffix : ''].filter(Boolean).join(' ');
+  let travelerList = `1. ${primaryName} (${bd.gender || ''}, DOB: ${bd.dob || ''}, Contact: ${bd.contactNo || ''}, Email: ${bd.email || ''})`;
+  if (bd.travelersCount > 1) {
+    for (let i = 2; i <= bd.travelersCount; i++) {
+      const aFN = document.querySelector(`.traveler-field[data-idx="${i}"][data-field="firstName"]`)?.value || '';
+      const aMN = document.querySelector(`.traveler-field[data-idx="${i}"][data-field="middleName"]`)?.value || '';
+      const aLN = document.querySelector(`.traveler-field[data-idx="${i}"][data-field="lastName"]`)?.value || '';
+      const aSF = document.querySelector(`.traveler-field[data-idx="${i}"][data-field="suffix"]`)?.value || 'None';
+      const aDob = document.querySelector(`.traveler-field[data-idx="${i}"][data-field="dob"]`)?.value || '';
+      const aGen = document.querySelector(`.traveler-field[data-idx="${i}"][data-field="gender"]`)?.value || '';
+      const aCon = document.querySelector(`.traveler-field[data-idx="${i}"][data-field="contact"]`)?.value || '';
+      const aEml = document.querySelector(`.traveler-field[data-idx="${i}"][data-field="email"]`)?.value || '';
+      const aName = [aFN, aMN, aLN, aSF !== 'None' ? aSF : ''].filter(Boolean).join(' ');
+      travelerList += `\n${i}. ${aName} (${aGen}, DOB: ${aDob}, Contact: ${aCon}, Email: ${aEml})`;
+    }
+  }
+
+  // Build pricing breakdown
+  const pricingList = bd.classified
+    ? bd.classified.map(p => `${p.name}: ₱${p.finalRate.toLocaleString()}${p.discount > 0 ? ` (-₱${p.discount.toLocaleString()} ${getCategoryLabel(p.category)} discount)` : ''}`).join('\n')
+    : `${primaryName}: ₱${(bd.ratePerHead || 180000).toLocaleString()}`;
+
+  const grandTotal = bd.grandTotal || (bd.ratePerHead || 180000) * (bd.travelersCount || 1);
+  const paymentLabel = bd.paymentScheme === 'monthly' ? 'Monthly Installment' : bd.paymentScheme === 'down' ? '₱50,000 Down Payment' : 'Full Cash';
 
   // Build FormData for Web3Forms
-  const bd = lastBookingData || {};
   const formData = new FormData();
   formData.append('access_key', '7332ba6f-c90e-4d55-ac88-cf63c72e4e48');
-  const clientName = (bd.firstName || '') + ' ' + (bd.lastName || '');
-  formData.append('subject', 'SIGNED Booking Confirmation - ' + clientName.trim() + ' (Route G Easy)');
+  formData.append('subject', `SIGNED Booking Confirmation - ${primaryName.trim()} (Route G Easy)`);
   formData.append('from_name', 'Route G Easy - Signed Confirmation');
-  // Booking reference from footer
   const footerRef = document.getElementById('bc-footer-ref');
   formData.append('Booking_Reference', footerRef ? footerRef.textContent : bd.refNo || '');
-  formData.append('Client_Name', [bd.firstName, bd.middleName, bd.lastName].filter(Boolean).join(' '));
+  formData.append('Client_Name', primaryName);
   formData.append('Contact_Email', bd.email || '');
   formData.append('Contact_Number', bd.contactNo || '');
   formData.append('Travel_Date', bd.travelDateLabel || bd.travelDate || '');
   formData.append('Package_Type', bd.packageLabel || '');
-  formData.append('Payment_Scheme', bd.paymentScheme === 'monthly' ? 'Monthly Installment' : bd.paymentScheme === 'down' ? '₱50,000 Down Payment' : 'Full Cash');
+  formData.append('Payment_Scheme', paymentLabel);
   formData.append('Total_Passengers', String(bd.travelersCount || 1));
-  formData.append('Grand_Total', '₱' + (bd.grandTotal || (bd.ratePerHead || 180000) * (bd.travelersCount || 1)).toLocaleString());
-  if (bd.classified && bd.classified.some(p => p.category !== 'adult')) {
-    const pricingLines = bd.classified.map(p => `${p.name}: ₱${p.finalRate.toLocaleString()}${p.discount > 0 ? ` (-₱${p.discount.toLocaleString()} ${getCategoryLabel(p.category)} discount)` : ''}`).join('\n');
-    formData.append('Pricing_Breakdown', pricingLines);
-  }
+  formData.append('Grand_Total', '₱' + grandTotal.toLocaleString());
+  formData.append('All_Travelers', travelerList);
+  formData.append('Pricing_Breakdown', pricingList);
   formData.append('Travel_Consultant', bd.consultant || '');
   formData.append('Special_Requests', bd.notes || 'None');
   formData.append('Terms_Accepted', 'Yes - Client accepted all Terms & Conditions');
