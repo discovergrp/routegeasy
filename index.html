@@ -726,7 +726,7 @@ footer { background: var(--primary-dark); border-top: 3px solid var(--accent); p
 
 <!-- Package Modals -->
 <!-- Inclusions Modal -->
-<div id="modal-inclusions" onclick="if(event.target===this)closePackageModal('inclusions')" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.55);z-index:2000;align-items:center;justify-content:center;padding:1rem;">
+<div id="modal-inclusions" onclick="if(event.target===this)closePackageModal('inclusions')" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.55);z-index:10000;align-items:center;justify-content:center;padding:1rem;">
   <div style="background:white;border-radius:1rem;max-width:520px;width:100%;max-height:88vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.25);">
     <!-- Modal Header -->
     <div style="display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;border-bottom:1px solid #e5e7eb;">
@@ -754,7 +754,7 @@ footer { background: var(--primary-dark); border-top: 3px solid var(--accent); p
 </div>
 
 <!-- Exclusions Modal -->
-<div id="modal-exclusions" onclick="if(event.target===this)closePackageModal('exclusions')" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.55);z-index:2000;align-items:center;justify-content:center;padding:1rem;">
+<div id="modal-exclusions" onclick="if(event.target===this)closePackageModal('exclusions')" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.55);z-index:10000;align-items:center;justify-content:center;padding:1rem;">
   <div style="background:white;border-radius:1rem;max-width:520px;width:100%;max-height:88vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.25);">
     <!-- Modal Header -->
     <div style="display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;border-bottom:1px solid #e5e7eb;">
@@ -776,7 +776,7 @@ footer { background: var(--primary-dark); border-top: 3px solid var(--accent); p
 </div>
 
 <!-- Optionals Modal -->
-<div id="modal-optionals" onclick="if(event.target===this)closePackageModal('optionals')" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.55);z-index:2000;align-items:center;justify-content:center;padding:1rem;">
+<div id="modal-optionals" onclick="if(event.target===this)closePackageModal('optionals')" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.55);z-index:10000;align-items:center;justify-content:center;padding:1rem;">
   <div style="background:white;border-radius:1rem;max-width:520px;width:100%;max-height:88vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.25);">
     <!-- Modal Header -->
     <div style="display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;border-bottom:1px solid #e5e7eb;">
@@ -1493,18 +1493,43 @@ function generateBookingConfirmation() {
     passengersTbody.appendChild(row);
   }
 
-  // Pricing breakdown
+  // Pricing breakdown — one row per traveler with age-based rates
   const pricingTbody = document.getElementById('bc-pricing-rows');
   pricingTbody.innerHTML = '';
-  const lastName1 = `${firstName} ${lastName}`;
-  const totalAmount = ratePerHead * travelersCount;
-  const pricingRow = document.createElement('tr');
-  pricingRow.innerHTML = `<td>${lastName1}</td><td class="text-right">₱${ratePerHead.toLocaleString()}</td><td class="text-center">${travelersCount}</td><td class="text-right font-bold">₱${totalAmount.toLocaleString()}</td>`;
-  pricingTbody.appendChild(pricingRow);
+
+  // Build classified list using same logic as recalculate()
+  const travelDateId = document.getElementById('travelDate').value;
+  const bcDates = TRAVEL_DATES[travelDateId];
+  const bcParticipants = [{ name: [firstName, middleName, lastName, suffix !== 'None' ? suffix : ''].filter(Boolean).join(' ').trim() || 'Primary Traveler', dob }];
+  for (let i = 2; i <= travelersCount; i++) {
+    const aFN = document.querySelector(`.traveler-field[data-idx="${i}"][data-field="firstName"]`)?.value || '';
+    const aMN = document.querySelector(`.traveler-field[data-idx="${i}"][data-field="middleName"]`)?.value || '';
+    const aLN = document.querySelector(`.traveler-field[data-idx="${i}"][data-field="lastName"]`)?.value || '';
+    const aSF = document.querySelector(`.traveler-field[data-idx="${i}"][data-field="suffix"]`)?.value || 'None';
+    const aDob = document.querySelector(`.traveler-field[data-idx="${i}"][data-field="dob"]`)?.value || '';
+    const fullN = [aFN, aMN, aLN, aSF !== 'None' ? aSF : ''].filter(Boolean).join(' ').trim() || `Traveler ${i}`;
+    bcParticipants.push({ name: fullN, dob: aDob });
+  }
+  const bcClassified = bcParticipants.map((p, idx) => {
+    const cat = bcDates ? classifyAge(p.dob, bcDates.start, bcDates.end) : 'adult';
+    const { rate, discount } = getCategoryRate(cat, ratePerHead);
+    return { ...p, index: idx, category: cat, rate, discount, finalRate: rate };
+  });
+  const bcGrandTotal = bcClassified.reduce((sum, p) => sum + p.finalRate, 0);
+
+  bcClassified.forEach(p => {
+    const catLabel = p.category !== 'adult' ? ` (${getCategoryLabel(p.category)})` : '';
+    const discNote = p.discount > 0 ? `<span style="font-size:0.7rem;color:#16a34a;"> -₱${p.discount.toLocaleString()} off</span>` : '';
+    const row = document.createElement('tr');
+    row.innerHTML = `<td>${p.name}${catLabel}</td><td class="text-right">₱${p.finalRate.toLocaleString()}${discNote}</td><td class="text-center">1</td><td class="text-right font-bold">₱${p.finalRate.toLocaleString()}</td>`;
+    pricingTbody.appendChild(row);
+  });
   const totalRow = document.createElement('tr');
   totalRow.className = 'total-row';
-  totalRow.innerHTML = `<td style="font-weight:900;">GRAND TOTAL</td><td></td><td class="text-center font-bold">${travelersCount} pax</td><td class="text-right" style="font-size:1rem;">₱${totalAmount.toLocaleString()}</td>`;
+  totalRow.innerHTML = `<td style="font-weight:900;">GRAND TOTAL</td><td></td><td class="text-center font-bold">${travelersCount} pax</td><td class="text-right" style="font-size:1rem;">₱${bcGrandTotal.toLocaleString()}</td>`;
   pricingTbody.appendChild(totalRow);
+
+  const totalAmount = bcGrandTotal;
 
   // Payment Schedule
   const schedTitle = document.getElementById('bc-payment-schedule-title');
@@ -1513,44 +1538,48 @@ function generateBookingConfirmation() {
 
   if (paymentScheme === 'monthly') {
     schedTitle.textContent = 'Payment Schedule — Monthly Installment';
-    // Calculate 11 months, fully paid 3 months before departure
-    const travelDateParts = travelDate.match(/(\w+ \d+)[^,]*,\s*(\d{4})/);
-    let startDate = new Date();
-    if (travelDateParts) {
-      const depDate = new Date(`${travelDateParts[1]}, ${travelDateParts[2]}`);
-      const lastPayDate = new Date(depDate);
-      lastPayDate.setMonth(lastPayDate.getMonth() - 3);
-      startDate = new Date(now);
+    // Calculate number of months: fully paid 3 months before departure
+    const bcTravelStart = bcDates ? new Date(bcDates.start) : null;
+    let numSchedMonths = 11;
+    if (bcTravelStart) {
+      const deadline = new Date(bcTravelStart);
+      deadline.setMonth(deadline.getMonth() - 3);
+      const tomorrow = new Date(now);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      let cnt = 0, chk = new Date(tomorrow);
+      while (chk <= deadline) { cnt++; chk.setMonth(chk.getMonth() + 1); }
+      if (cnt >= 1) numSchedMonths = cnt;
     }
-    const monthlyAmt = Math.ceil(ratePerHead / 11);
-    let table = `<table class="bc-payment-schedule-table"><thead><tr><th>#</th><th>Payment</th><th>Due Date</th><th style="text-align:right;">Amount (Per Head)</th></tr></thead><tbody>`;
+    const monthlyTotal = bcClassified.reduce((sum, p) => sum + Math.ceil(p.finalRate / numSchedMonths), 0);
+    let table = `<table class="bc-payment-schedule-table"><thead><tr><th>#</th><th>Payment</th><th>Due Date</th><th style="text-align:right;">Amount</th></tr></thead><tbody>`;
     let d = new Date(now);
     d.setDate(d.getDate() + 1);
-    for (let i = 0; i < 11; i++) {
+    for (let i = 0; i < numSchedMonths; i++) {
       const label = i === 0 ? 'First Payment' : 'Monthly Installment';
       const dueStr = d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-      table += `<tr><td>${i+1}</td><td>${label}</td><td>${dueStr}</td><td style="text-align:right;">₱${monthlyAmt.toLocaleString()}</td></tr>`;
+      table += `<tr><td>${i+1}</td><td>${label}</td><td>${dueStr}</td><td style="text-align:right;">₱${monthlyTotal.toLocaleString()} total</td></tr>`;
       d.setMonth(d.getMonth() + 1);
     }
-    table += `<tr class="total-row"><td colspan="2" style="font-weight:900;">TOTAL</td><td style="font-size:0.7rem;color:#6b7a94;">Fully paid 3 months before departure</td><td style="text-align:right;">₱${ratePerHead.toLocaleString()} /head</td></tr>`;
+    table += `<tr class="total-row"><td colspan="2" style="font-weight:900;">GRAND TOTAL</td><td style="font-size:0.7rem;color:#6b7a94;">Fully paid 3 months before departure</td><td style="text-align:right;">₱${bcGrandTotal.toLocaleString()}</td></tr>`;
     table += `</tbody></table><p style="font-size:0.7rem;color:#6b7a94;margin-top:0.5rem;">Note: Prompt payment ensures uninterrupted processing of your visa application and travel arrangements.</p>`;
     schedContent.innerHTML = table;
   } else if (paymentScheme === 'down') {
     schedTitle.textContent = 'Payment Schedule — Down Payment Scheme';
-    const balance = ratePerHead - 50000;
+    const totalDown = bcClassified.reduce((sum, p) => sum + (p.category === 'infant' ? p.finalRate : 50000), 0);
+    const totalBalance = bcGrandTotal - totalDown;
     schedContent.innerHTML = `
-      <table class="bc-payment-schedule-table"><thead><tr><th>Description</th><th style="text-align:right;">Amount (Per Head)</th></tr></thead><tbody>
-      <tr><td>Down Payment (per head)</td><td style="text-align:right;font-weight:700;">₱50,000</td></tr>
-      <tr><td>Balance (per head) — due upon visa approval</td><td style="text-align:right;font-weight:700;">₱${balance.toLocaleString()}</td></tr>
-      <tr class="total-row"><td style="font-weight:900;">Grand Total</td><td style="text-align:right;">₱${ratePerHead.toLocaleString()}</td></tr>
+      <table class="bc-payment-schedule-table"><thead><tr><th>Description</th><th style="text-align:right;">Amount</th></tr></thead><tbody>
+      <tr><td>Down Payment (all travelers)</td><td style="text-align:right;font-weight:700;">₱${totalDown.toLocaleString()}</td></tr>
+      <tr><td>Balance — due upon visa approval</td><td style="text-align:right;font-weight:700;">₱${totalBalance.toLocaleString()}</td></tr>
+      <tr class="total-row"><td style="font-weight:900;">Grand Total</td><td style="text-align:right;">₱${bcGrandTotal.toLocaleString()}</td></tr>
       </tbody></table>
       <p style="font-size:0.7rem;color:#6b7a94;margin-top:0.5rem;">Note: The remaining balance will be due upon release of your visa result.</p>`;
   } else {
     schedTitle.textContent = 'Payment Schedule — Full Cash';
     schedContent.innerHTML = `
-      <table class="bc-payment-schedule-table"><thead><tr><th>Description</th><th style="text-align:right;">Amount (Per Head)</th></tr></thead><tbody>
-      <tr><td>Full Payment (per head)</td><td style="text-align:right;font-weight:700;">₱${ratePerHead.toLocaleString()}</td></tr>
-      <tr class="total-row"><td style="font-weight:900;">Total</td><td style="text-align:right;">₱${ratePerHead.toLocaleString()}</td></tr>
+      <table class="bc-payment-schedule-table"><thead><tr><th>Description</th><th style="text-align:right;">Amount</th></tr></thead><tbody>
+      <tr><td>Full Payment (all travelers)</td><td style="text-align:right;font-weight:700;">₱${bcGrandTotal.toLocaleString()}</td></tr>
+      <tr class="total-row"><td style="font-weight:900;">Grand Total</td><td style="text-align:right;">₱${bcGrandTotal.toLocaleString()}</td></tr>
       </tbody></table>
       <p style="font-size:0.7rem;color:#6b7a94;margin-top:0.5rem;">Note: Full payment is due upon booking confirmation.</p>`;
   }
