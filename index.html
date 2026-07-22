@@ -1739,8 +1739,18 @@ function submitSignedConfirmation() {
     body: formData
   })
   .then(r => r.json())
-  .then(data => { onSubmitSuccess(); })
-  .catch(err => { onSubmitSuccess(); });
+  .then(data => {
+    console.log('Web3Forms response:', JSON.stringify(data));
+    if (data.success) {
+      onSubmitSuccess();
+    } else {
+      onSubmitError(data.message || 'Submission failed. Please try again.');
+    }
+  })
+  .catch(err => {
+    console.error('Web3Forms fetch error:', err);
+    onSubmitError('Network error. Please check your connection and try again.');
+  });
 
   function onSubmitSuccess() {
     status.className = 'bc-submit-status ready';
@@ -1751,6 +1761,14 @@ function submitSignedConfirmation() {
     printBtn.style.opacity = '1';
     printBtn.style.cursor = 'pointer';
     showToast('✅ Signed confirmation sent to inquiry@discovergrp.com! You may now print or save as PDF.');
+  }
+
+  function onSubmitError(msg) {
+    status.className = 'bc-submit-status pending';
+    status.textContent = '⚠️ ' + msg;
+    btn.disabled = false;
+    btn.innerHTML = '🔁 Retry Submit';
+    showToast('⚠️ Email not sent: ' + msg);
   }
 }
 
