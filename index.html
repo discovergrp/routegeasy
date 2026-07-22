@@ -1946,15 +1946,20 @@ function renderPaymentBreakdown(total, travelDateId, classified, count, standard
   if (paymentMethod === 'down') {
     html += `<div style="font-size:0.9rem;font-weight:700;color:var(--accent);margin-bottom:0.5rem;display:flex;align-items:center;gap:0.5rem;">💳 Down Payment Scheme</div>`;
     html += `<p style="font-size:0.85rem;color:var(--muted);margin-bottom:1rem;">Secure your slot with ₱50,000 down payment per head. The remaining balance will be due upon release of your visa result.</p>`;
-    html += buildDiscountBreakdown(classified);
+    // Per-person down payment breakdown (no duplicate name list)
     if (hasDiscounts) {
+      // Show each traveler with their discounted rate + down/balance
+      html += '<div class="discount-breakdown"><p class="discount-breakdown-title">🏷️ Age-Based Pricing:</p>';
       classified.forEach(p => {
+        const badge = p.category !== 'adult' ? `<span class="badge badge-${p.category}">${getCategoryLabel(p.category)}</span>` : '';
+        const discountNote = p.category === 'infant' ? `<span class="discount-text">(Flat ₱50,000)</span>` : p.discount > 0 ? `<span class="discount-text">(-${formatPHP(p.discount)} off)</span>` : '';
         const downPayment = p.category === 'infant' ? p.finalRate : 50000;
         const balance = p.finalRate - downPayment;
-        const badge = p.category !== 'adult' ? ` <span class="badge badge-${p.category}">${getCategoryLabel(p.category)}</span>` : '';
-        html += `<div class="discount-row"><span>${p.name}${badge}</span><span>${formatPHP(p.finalRate)}/head</span></div>`;
-        if (balance > 0) html += `<div style="font-size:0.75rem;color:rgba(255,255,255,0.5);padding-left:1rem;margin-bottom:0.25rem;">Down: ${formatPHP(downPayment)} | Balance: ${formatPHP(balance)}</div>`;
+        html += `<div class="discount-row"><span>${p.name || 'Traveler ' + (p.index + 1)}${badge ? ' ' + badge : ''}</span><span>${formatPHP(p.finalRate)}/head ${discountNote}</span></div>`;
+        if (balance > 0) html += `<div style="font-size:0.75rem;color:rgba(255,255,255,0.5);padding-left:1rem;margin-bottom:0.5rem;">Down: ${formatPHP(downPayment)} | Balance: ${formatPHP(balance)}</div>`;
+        else html += `<div style="font-size:0.75rem;color:rgba(255,255,255,0.5);padding-left:1rem;margin-bottom:0.5rem;">Full payment: ${formatPHP(p.finalRate)} (Infant flat rate)</div>`;
       });
+      html += '</div>';
     } else {
       const perHead = total / count;
       html += `<div class="discount-row"><span>Down Payment (per head)</span><span style="color:var(--accent);font-weight:700;">${formatPHP(50000)}</span></div>`;
@@ -1995,12 +2000,12 @@ function renderPaymentBreakdown(total, travelDateId, classified, count, standard
   html += `<p style="font-size:0.85rem;color:var(--muted);margin-bottom:1rem;">Fully paid 3 months before departure. Monthly payments divided equally:</p>`;
 
   if (hasDiscounts) {
-    html += buildDiscountBreakdown(classified);
-    html += '<div class="installment-divider"></div>';
+    // Show per-person monthly breakdown (no duplicate name list)
     classified.forEach(p => {
       const monthlyAmt = Math.ceil(p.finalRate / numMonths);
       const badge = p.category !== 'adult' ? ` <span class="badge badge-${p.category}">${getCategoryLabel(p.category)}</span>` : '';
-      html += `<div class="installment-sub-header">${p.name}${badge} — ${formatPHP(monthlyAmt)}/month</div>`;
+      const discountNote = p.discount > 0 ? ` <span style="font-size:0.75rem;color:#4ade80;">(-${formatPHP(p.discount)} off)</span>` : '';
+      html += `<div class="installment-sub-header">${p.name}${badge} — ${formatPHP(monthlyAmt)}/month${discountNote}</div>`;
     });
     html += '<div class="installment-divider"></div>';
     const totalMonthly = classified.reduce((sum, p) => sum + Math.ceil(p.finalRate / numMonths), 0);
