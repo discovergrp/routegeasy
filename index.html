@@ -1485,11 +1485,12 @@ function generateBookingConfirmation() {
     const aLN = document.querySelector(`.traveler-field[data-idx="${i}"][data-field="lastName"]`)?.value || '—';
     const aDob = document.querySelector(`.traveler-field[data-idx="${i}"][data-field="dob"]`)?.value || '';
     const aGen = document.querySelector(`.traveler-field[data-idx="${i}"][data-field="gender"]`)?.value || '—';
+    const aSuffix = document.querySelector(`.traveler-field[data-idx="${i}"][data-field="suffix"]`)?.value || 'None';
     const aContact = document.querySelector(`.traveler-field[data-idx="${i}"][data-field="contact"]`)?.value || '—';
     const aEmail = document.querySelector(`.traveler-field[data-idx="${i}"][data-field="email"]`)?.value || '—';
     const aDobFmt = aDob ? new Date(aDob+'T00:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) : '—';
     const row = document.createElement('tr');
-    row.innerHTML = `<td style="font-weight:700;">${i}</td><td class="font-bold">${aFN}</td><td>${aMN}</td><td class="font-bold">${aLN}</td><td>—</td><td>${aGen}</td><td class="mono">${aContact}</td><td class="mono">${aEmail}</td><td class="mono">${aDobFmt}</td>`;
+    row.innerHTML = `<td style="font-weight:700;">${i}</td><td class="font-bold">${aFN}</td><td>${aMN}</td><td class="font-bold">${aLN}</td><td>${aSuffix !== 'None' ? aSuffix : '—'}</td><td>${aGen}</td><td class="mono">${aContact}</td><td class="mono">${aEmail}</td><td class="mono">${aDobFmt}</td>`;
     passengersTbody.appendChild(row);
   }
 
